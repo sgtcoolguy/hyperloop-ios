@@ -98,7 +98,6 @@ describe("Compiler front-end", function() {
 	});
 
 	it('should compile library',function(done){
-		this.timeout(30000);
 		function completed() {
 			var fn = path.join(options.dest,'libhyperloop.a');
 			fs.existsSync(fn).should.be.true;
@@ -109,8 +108,7 @@ describe("Compiler front-end", function() {
 		hyperloop.run('library',options,platform,[],completed);
 	});
 
-	it.only('should compile basic app',function(done){
-		this.timeout(60000);
+	it('should compile basic app',function(done){
 		compileApp('basic',function(logs){
 			logs.debug.should.not.be.empty;
 			logs.debug.join('').should.match(/global=/);
@@ -119,7 +117,6 @@ describe("Compiler front-end", function() {
 	});
 
 	it('should compile cast app',function(done){
-		this.timeout(30000);
 		compileApp('cast',function(logs){
 			logs.debug.should.not.be.empty;
 			logs.debug.should.have.length(3);
@@ -131,7 +128,6 @@ describe("Compiler front-end", function() {
 	});
 
 	it('should compile common require app',function(done){
-		this.timeout(30000);
 		compileApp('common/require',function(logs){
 			logs.debug.should.not.be.empty;
 			logs.debug.should.have.length(25);
@@ -165,7 +161,6 @@ describe("Compiler front-end", function() {
 	});
 
 	it('should compile common vm app',function(done){
-		this.timeout(30000);
 		compileApp('common/vm',function(logs){
 			logs.debug.should.not.be.empty;
 			logs.debug.should.have.length(16);
@@ -190,7 +185,6 @@ describe("Compiler front-end", function() {
 	});
 
 	it.skip('should compile common unicode app',function(done){
-		this.timeout(30000);
 		//FIXME: this is currently not working for iOS
 		compileApp('common/unicode',function(logs){
 			console.log(logs);
