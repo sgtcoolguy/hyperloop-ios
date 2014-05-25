@@ -5,3 +5,4 @@ var view = new UIView(frame);
 
 view.constraints().count();
 view.constraints().description().description();
+console.log('TI_EXIT');

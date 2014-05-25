@@ -23,3 +23,4 @@ global.window = window;
 
 exports.foo = 1;
 console.log('global=',Object.keys(global));
+console.log('TI_EXIT');

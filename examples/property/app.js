@@ -25,3 +25,4 @@ view.layer.mask.mask.opacity = 1.0;
 
 // assign to readonly property. this should fail
 // view.backgroundColor.CGColor = UIColor.blackColor();
+console.log('TI_EXIT');
