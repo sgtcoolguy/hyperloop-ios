@@ -51,7 +51,7 @@
     "hyperloop"
   ],
   "dependencies": {
-    "hyperloop-common": "git+ssh://git@github.com:appcelerator/hyperloop-common.git",
+    "hyperloop-common": "appcelerator/hyperloop-common",
     "node-appc": "~0.1.30",
     "async": "~0.2.9",
     "underscore": "1.5.2",
