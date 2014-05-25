@@ -127,39 +127,37 @@ describe("Compiler front-end", function() {
 		});
 	});
 
-	it('should compile common require app',function(done){
+	//TODO: for some reason, can't get travis to pull in updated hyperloop-common
+	//which has updated node_modules folder under examples/require
+	(process.env.TRAVIS ? it.skip : it)('should compile common require app',function(done){
 		compileApp('common/require',function(logs){
 			logs.debug.should.not.be.empty;
-			//TODO: for some reason, can't get travis to pull in updated hyperloop-common
-			//which has updated node_modules folder under examples/require
-			if (!process.env.TRAVIS) {
-				logs.debug.should.have.length(25);
-				logs.debug[0].should.equal('should be /app.js => /app.js');
-				logs.debug[1].should.equal('should be /a.js => /a.js');
-				logs.debug[2].should.equal('b should be 2 => 2');
-				logs.debug[3].should.equal('a.js child[0] =>  /a.js');
-				logs.debug[4].should.equal('should be /node_modules/c.js => /node_modules/c.js');
-				logs.debug[5].should.equal('c.js parent is /app.js => /app.js');
-				logs.debug[6].should.equal('should be /node_modules/e/main.js => /node_modules/e/main.js');
-				logs.debug[7].should.equal('should be /node_modules/e/main.js => /node_modules/e/main.js');
-				logs.debug[8].should.equal('should be 6 =>  6');
-				logs.debug[9].should.equal('should be bar =>  bar');
-				logs.debug[10].should.equal('a should be 1 => 6');
-				logs.debug[11].should.equal('b should be 2 => bar');
-				logs.debug[12].should.equal('c should be 1 => 1');
-				logs.debug[13].should.equal('d should be 1 => 1');
-				logs.debug[14].should.equal('e should be 2 => 2');
-				logs.debug[15].should.equal('f should be 3 => 3');
-				logs.debug[16].should.equal('j should be world => world');
-				logs.debug[17].should.equal('k should be 4 => 4');
-				logs.debug[18].should.equal('l should be 5 => 5');
-				logs.debug[19].should.equal('m should be 1 => 1');
-				logs.debug[20].should.equal('z should be 1 => 1');
-				logs.debug[21].should.equal('should be true => true');
-				logs.debug[22].should.equal('should be /app.js => /app.js');
-				logs.debug[23].should.equal('app.js children => 1');
-				logs.debug[24].should.equal('app.js child[0] =>  /app.js');
-			}
+			logs.debug.should.have.length(25);
+			logs.debug[0].should.equal('should be /app.js => /app.js');
+			logs.debug[1].should.equal('should be /a.js => /a.js');
+			logs.debug[2].should.equal('b should be 2 => 2');
+			logs.debug[3].should.equal('a.js child[0] =>  /a.js');
+			logs.debug[4].should.equal('should be /node_modules/c.js => /node_modules/c.js');
+			logs.debug[5].should.equal('c.js parent is /app.js => /app.js');
+			logs.debug[6].should.equal('should be /node_modules/e/main.js => /node_modules/e/main.js');
+			logs.debug[7].should.equal('should be /node_modules/e/main.js => /node_modules/e/main.js');
+			logs.debug[8].should.equal('should be 6 =>  6');
+			logs.debug[9].should.equal('should be bar =>  bar');
+			logs.debug[10].should.equal('a should be 1 => 6');
+			logs.debug[11].should.equal('b should be 2 => bar');
+			logs.debug[12].should.equal('c should be 1 => 1');
+			logs.debug[13].should.equal('d should be 1 => 1');
+			logs.debug[14].should.equal('e should be 2 => 2');
+			logs.debug[15].should.equal('f should be 3 => 3');
+			logs.debug[16].should.equal('j should be world => world');
+			logs.debug[17].should.equal('k should be 4 => 4');
+			logs.debug[18].should.equal('l should be 5 => 5');
+			logs.debug[19].should.equal('m should be 1 => 1');
+			logs.debug[20].should.equal('z should be 1 => 1');
+			logs.debug[21].should.equal('should be true => true');
+			logs.debug[22].should.equal('should be /app.js => /app.js');
+			logs.debug[23].should.equal('app.js children => 1');
+			logs.debug[24].should.equal('app.js child[0] =>  /app.js');
 			done();
 		});
 	});
