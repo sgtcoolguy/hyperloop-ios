@@ -109,8 +109,8 @@ describe("Compiler front-end", function() {
 		hyperloop.run('library',options,platform,[],completed);
 	});
 
-	it('should compile basic app',function(done){
-		this.timeout(30000);
+	it.only('should compile basic app',function(done){
+		this.timeout(60000);
 		compileApp('basic',function(logs){
 			logs.debug.should.not.be.empty;
 			logs.debug.join('').should.match(/global=/);
