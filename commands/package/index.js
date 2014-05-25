@@ -44,7 +44,7 @@ module.exports = new Command(
 			});
 
 			async.series(tasks,function(err){
-				err && log.fatal(err);
+				if (err) { return done(err); }
 				switch (options.packageType) {
 					case 'module': {
 						return packager.packageModule(options,args,done);
@@ -81,6 +81,6 @@ function prepare(state,done) {
  */
 function required(options, name, help) {
 	if (!options[name]) {
-	   log.fatal('Missing required options ' + ('--' + name).magenta.bold + ' which should ' + help);
+	   throw new Error('Missing required options ' + ('--' + name).magenta.bold + ' which should ' + help);
 	}
 }
