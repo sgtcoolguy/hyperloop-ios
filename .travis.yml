@@ -1,0 +1,10 @@
+language: objective-c
+before_script:
+- npm install -g grunt-cli
+install:
+- npm install
+script:
+- grunt test
+notifications:
+  flowdock:
+    secure: cO7Vu29saVptMVrQaYlZuTj3bffslwTU3xp23ZLcwBa+jK6oSIzykxqVDutmc6H9Ln30D/NWDNNaiQILugWE6wxb4uiQ9heoeguw1Mn51gNn3nz6V36aGHDEjwC5glQC+rLyr1JqZkPNRPADyS3+CwUxB7gMJ6K7KgxfwDZ+RH0=
