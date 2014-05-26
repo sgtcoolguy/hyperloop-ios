@@ -21,9 +21,8 @@ module.exports = new Command(
 			if (!options.main) {
 				options.main = 'app';
 			}
-
 			var tasks = [],
-				libname = path.join(options.dest,'lib'+options.name+'.a');
+				libname = options.libname = path.join(options.dest,'lib'+options.name+'.a');
 
 			// if the library doesn't exist, go ahead and compile
 			if (!fs.existsSync(libname)) {

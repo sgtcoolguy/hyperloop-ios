@@ -1,5 +1,6 @@
 {
     "debug":true,
     "debugsource":true,
-    "obfuscate":false
+    "obfuscate":false,
+    "platform":"ios"
 }
