@@ -1,7 +1,7 @@
 /**
  * simple hook that inject mocha
  */
-var hl = require('hyperloopcommon'),
+var hl = require('hyperloop-common'),
        path = require('path'),
        fs = require('fs'),
        log = hl.log;
@@ -57,10 +57,10 @@ exports.init = function(cli) {
        cli.on('compile.pre.compile.source', {
                pre: function(data) {
                        if (/describe\s*\(/.test(data.source)) {
-                               data.source = addRequire(data.source,'require("timocha");var should=require("should")');
+                               data.source = addRequire(data.source,'require("ti-mocha");var should=require("should")');
                                data.source += ';mocha.run();';
-                               var tiMochaFile = path.join(hl.dirname,'examples','mocha','timocha.js');
-                               addUncompiledSource(data,tiMochaFile,tiMochaFile,'timocha');
+                               var tiMochaFile = path.join(hl.dirname,'examples','mocha','ti-mocha.js');
+                               addUncompiledSource(data,tiMochaFile,tiMochaFile,'ti-mocha');
                                var shouldFile = path.join(hl.dirname,'examples','mocha','should.js');
                                addUncompiledSource(data,shouldFile,shouldFile,'should');
                        }

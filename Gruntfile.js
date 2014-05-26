@@ -40,7 +40,7 @@ module.exports = function(grunt) {
           reporter: 'spec',
           timeout: process.env.TRAVIS ? '60000' : '30000'
         },
-        src: ['specs/*.js']
+        src: ['specs/**/*.js']
       }
     },
     clean: {
