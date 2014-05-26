@@ -1,14 +1,13 @@
 /*
  * Packager
  */
-var packager = require('../../lib/packager');
-	log = require('hyperloop-common').log,
-	hyperloop = require('hyperloop-common'),
+var packager = require('../../lib/packager'),
+	hyperloop = require('../../lib/dev').require('hyperloop-common'),
+	log = hyperloop.log,
 	Command = hyperloop.Command,
 	async = require('async'),
 	path = require('path'),
 	fs = require('fs');
-
 
 module.exports = new Command(
 	'package',

@@ -1,12 +1,13 @@
 /*
  * Launcher
  */
-var log = require('hyperloop-common').log,
-	hyperloop = require('hyperloop-common'),
+var hyperloop = require('../../lib/dev').require('hyperloop-common'),
+	log = hyperloop.log,
 	Command = hyperloop.Command,
 	buildlib = require('../../lib/buildlib'),
 	launcher = require('../../lib/launcher'),
 	path = require('path'),
+	fs = require('fs'),
 	async = require('async');
 
 module.exports = new Command(
