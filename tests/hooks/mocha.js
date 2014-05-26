@@ -53,7 +53,7 @@ function addRequire(source, line) {
        return lines.join('\n');
 }
 
-exports.init = function(cli) {
+exports.init = function(cli, log) {
        cli.on('compile.pre.compile.source', {
                pre: function(data) {
                        if (/describe\s*\(/.test(data.source)) {
