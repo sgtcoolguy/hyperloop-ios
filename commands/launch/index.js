@@ -28,11 +28,12 @@ module.exports = new Command(
 			}
 
 			tasks.push(function(next){
-				var arch = /(i386|simulator)/.test(options.arch || 'i386') ? 'i386' : 'armv7',
+				var arch = /(i386|simulator)/.test(state.arch || options.arch || 'i386') ? 'i386' : 'armv7',
 					platform = /(i386|simulator)/.test(arch) ? 'simulator' : 'os',
 					safeName = options.safeName,
 					builddir = path.resolve(options.dest),
 					launch_timeout = options.launch_timeout,
+					device_id = state.device_id || options.device_id,
 					appdir = path.join(builddir, 'build', 'Release-iphone' + platform, safeName + '.app');
 
 				if (options.packageType === 'module') {
@@ -46,7 +47,7 @@ module.exports = new Command(
 						launcher.executeSimulator(options.name, appdir, settings, next, options.logger, options.hidden, options.unit, launch_timeout);
 					}
 					else {
-						launcher.executeDevice(options.name, appdir, settings, next, options.logger, options.hidden, options.device_id, options.quiet, options.unit, launch_timeout);
+						launcher.executeDevice(options.name, appdir, settings, next, options.logger, options.hidden, device_id, options.quiet, options.unit, launch_timeout);
 					}
 				});
 			});

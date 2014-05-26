@@ -33,7 +33,7 @@ module.exports = new Command(
 			}
 
 			tasks.push(function (next) {
-				packager.validate(state.options, state.args, required, next);
+				packager.validate(state, state.options, state.args, required, next);
 			});
 
 			tasks.push(function (next) {

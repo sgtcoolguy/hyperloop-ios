@@ -25,7 +25,7 @@ function compileApp(name, done) {
 	else {
 		options.src = path.join(__dirname,'..','examples',name);
 	}
-	var logs = {};
+	var logs = {}, state = {};
 	options.logger = {};
 	// setup a programmatic logger to capture logs at various levels
 	function makeLogger(label) {
@@ -44,19 +44,19 @@ function compileApp(name, done) {
 	log.info('app build directory is',options.dest.green);
 	tasks.push(function(next){
 		log.info('creating library for',name.green);
-		hyperloop.run('library',options,platform,[],next);
+		hyperloop.run(state,'library',options,platform,[],next);
 	});
 	tasks.push(function(next){
 		log.info('compiling',name.green);
-		hyperloop.run('compile',options,platform,[],next);
+		hyperloop.run(state,'compile',options,platform,[],next);
 	});
 	tasks.push(function(next){
 		log.info('packaging',name.green);
-		hyperloop.run('package',options,platform,[],next);
+		hyperloop.run(state,'package',options,platform,[],next);
 	});
 	tasks.push(function(next){
 		log.info('launching',name.green);
-		hyperloop.run('launch',options,platform,[],next);
+		hyperloop.run(state,'launch',options,platform,[],next);
 	});
 	async.series(tasks, function(err,results){
 		should(err).be.null;
