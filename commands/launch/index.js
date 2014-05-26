@@ -21,9 +21,8 @@ module.exports = new Command(
 				fn = path.join(options.dest,'lib'+options.name+'.a');
 
 			if (!fs.existsSync(fn)) {
-				var subcommand = hyperloop.getCommand('package');
 				tasks.push(function(next){
-					subcommand.execute(state,next);
+					hyperloop.execCommand('package',state,next);
 				});
 			}
 

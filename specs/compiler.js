@@ -132,7 +132,7 @@ describe("Compiler front-end", function() {
 	(process.env.TRAVIS ? it.skip : it)('should compile common require app',function(done){
 		compileApp('common/require',function(logs){
 			logs.debug.should.not.be.empty;
-			logs.debug.should.have.length(25);
+			logs.debug.should.have.length(26);
 			logs.debug[0].should.equal('should be /app.js => /app.js');
 			logs.debug[1].should.equal('should be /a.js => /a.js');
 			logs.debug[2].should.equal('b should be 2 => 2');
@@ -154,10 +154,11 @@ describe("Compiler front-end", function() {
 			logs.debug[18].should.equal('l should be 5 => 5');
 			logs.debug[19].should.equal('m should be 1 => 1');
 			logs.debug[20].should.equal('z should be 1 => 1');
-			logs.debug[21].should.equal('should be true => true');
-			logs.debug[22].should.equal('should be /app.js => /app.js');
-			logs.debug[23].should.equal('app.js children => 1');
-			logs.debug[24].should.equal('app.js child[0] =>  /app.js');
+			logs.debug[21].should.equal('fn should be 10 => 10');
+			logs.debug[22].should.equal('should be true => true');
+			logs.debug[23].should.equal('should be /app.js => /app.js');
+			logs.debug[24].should.equal('app.js children => 1');
+			logs.debug[25].should.equal('app.js child[0] =>  /app.js');
 			done();
 		});
 	});

@@ -29,9 +29,8 @@ module.exports = new Command(
 			// if the library doesn't exist, go ahead and compile
 			if (!fs.existsSync(libname)) {
 				// invoke a subcommand before we package
-				var subcommand = hyperloop.getCommand('compile');
 				tasks.push(function(next){
-					subcommand.execute(state,next);
+					hyperloop.execCommand('compile',state,next);
 				});
 			}
 
