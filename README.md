@@ -1,4 +1,4 @@
-# Hyperloop for iOS ∞ [![Build Status](https://magnum.travis-ci.com/appcelerator/hyperloop-ios.svg?token=xjwxUDk3aUJaLhguTqyB&branch=master)](https://magnum.travis-ci.com/appcelerator/hyperloop-ios)
+# Hyperloop for iOS ∞ [![Build Status](https://travis-ci.org/appcelerator/hyperloop-ios.svg)](https://travis-ci.org/appcelerator/hyperloop-ios)
 
 Hyperloop is a next-generation compiler that converts JavaScript source code into native code for targeting different native OS platforms. 
 
@@ -9,8 +9,8 @@ This is the iOS backend for running Hyperloop for iOS.
 ## Requirements
 
 * [Node.js](http://nodejs.org/) >= 0.10.15
-* iOS
-* Xcode
+* iOS 7.1+
+* Xcode 5.1+
 
 ## Documentation & Community
 
