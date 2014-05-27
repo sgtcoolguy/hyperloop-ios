@@ -3,3 +3,4 @@ _tmp
 build
 out
 coverage
+npm-debug.log

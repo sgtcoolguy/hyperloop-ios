@@ -109,7 +109,7 @@ describe("Compiler front-end", function() {
 		hyperloop.run(state,'library',options,platform,[],completed);
 	});
 
-	it('should compile basic app',function(done){
+	it('should test basic app',function(done){
 		compileApp('basic',function(logs){
 			logs.debug.should.not.be.empty;
 			logs.debug.join('').should.match(/global=/);
@@ -117,7 +117,7 @@ describe("Compiler front-end", function() {
 		});
 	});
 
-	it('should compile cast app',function(done){
+	it('should test cast app',function(done){
 		compileApp('cast',function(logs){
 			logs.debug.should.not.be.empty;
 			logs.debug.should.have.length(3);
@@ -130,7 +130,7 @@ describe("Compiler front-end", function() {
 
 	//TODO: for some reason, can't get travis to pull in updated hyperloop-common
 	//which has updated node_modules folder under examples/require
-	(process.env.TRAVIS ? it.skip : it)('should compile common require app',function(done){
+	(process.env.TRAVIS ? it.skip : it)('should test common require app',function(done){
 		compileApp('common/require',function(logs){
 			logs.debug.should.not.be.empty;
 			logs.debug.should.have.length(26);
@@ -164,7 +164,7 @@ describe("Compiler front-end", function() {
 		});
 	});
 
-	it('should compile common vm app',function(done){
+	it('should test common vm app',function(done){
 		compileApp('common/vm',function(logs){
 			logs.debug.should.not.be.empty;
 			logs.debug.should.have.length(16);
@@ -188,7 +188,7 @@ describe("Compiler front-end", function() {
 		});
 	});
 
-	it.skip('should compile common unicode app',function(done){
+	it.skip('should test common unicode app',function(done){
 		//FIXME: this is currently not working for iOS
 		compileApp('common/unicode',function(logs){
 			console.log(logs);
