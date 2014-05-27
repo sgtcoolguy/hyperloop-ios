@@ -103,9 +103,10 @@ describe("Compiler front-end", function() {
 			fs.existsSync(fn).should.be.true;
 			done();
 		};
-		var platform = require('../');
+		var platform = require('../'),
+			state = {};
 		platform.directory = path.join(__dirname,'..');
-		hyperloop.run('library',options,platform,[],completed);
+		hyperloop.run(state,'library',options,platform,[],completed);
 	});
 
 	it('should compile basic app',function(done){
