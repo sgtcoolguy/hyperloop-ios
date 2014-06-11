@@ -16,11 +16,15 @@ var nativeObjects = {
 
 
 var point = CGPointMake(10, 20);
-var x = point.x;
-var y = point.y;
 
-console.log('point.x='+x);
-console.log('point.y='+y);
+console.log('point.x='+point.x);
+console.log('point.y='+point.y);
+
+point.x = 11;
+point.y = 12;
+
+console.log('point.x='+point.x);
+console.log('point.y='+point.y);
 
 console.log('TI_EXIT');
 
