@@ -72,13 +72,12 @@ describe('#types', function(){
 		preamble.should.be.empty;
 		cleanup.should.be.empty;
 		declare.should.not.be.empty;
-		declare[0].should.be.equal('JSValueRef CMAcceleration_ToJSValue(JSContextRef,CMAcceleration,JSValueRef *);');
+		declare[0].should.be.equal('JSValueRef CMAcceleration_ToJSValue(JSContextRef,CMAcceleration *,JSValueRef *);');
 		declare=[];
-		type.toNativeBody('value',preamble,cleanup,declare).should.be.equal('JSValueTo_CMAcceleration(ctx,value,exception)');
-		preamble.should.be.empty;
+		type.toNativeBody('value',preamble,cleanup,declare).should.be.equal('valuebuf2->getObject()');
+		preamble[0].should.be.equal('auto valuebuf = static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
 		cleanup.should.be.empty;
-		declare.should.not.be.empty;
-		declare[0].should.be.equal('EXPORTAPI CMAcceleration JSValueTo_CMAcceleration(JSContextRef,JSValueRef,JSValueRef *);');
+		declare.should.be.empty;
 
 		var code = [],	
 			lib = require('../lib/library');
@@ -86,7 +85,7 @@ describe('#types', function(){
 
 		var results = 
 		[
-			'typedef Hyperloop::NativeObject<CMAcceleration> * NativeCMAcceleration;',
+			'typedef Hyperloop::NativeObject<CMAcceleration *> * NativeCMAcceleration;',
 			'',
 			'static void FinalizeCMAcceleration(JSObjectRef object)',
 			'{',
@@ -111,15 +110,15 @@ describe('#types', function(){
 			'/**',
 			' * type: CMAcceleration to JSValueRef',
 			' */',
-			'EXPORTAPI JSValueRef CMAcceleration_ToJSValue(JSContextRef ctx, CMAcceleration value, JSValueRef *exception)',
+			'EXPORTAPI JSValueRef CMAcceleration_ToJSValue(JSContextRef ctx, CMAcceleration * value, JSValueRef *exception)',
 			'{',
-			'\treturn JSObjectMake(ctx,RegisterCMAcceleration(),new Hyperloop::NativeObject<CMAcceleration>(value));',
+			'\treturn JSObjectMake(ctx,RegisterCMAcceleration(),new Hyperloop::NativeObject<CMAcceleration *>(value));',
 			'}',
 			'',
 			'/**',
 			' * type: CMAcceleration from JSValueRef',
 			' */',
-			'EXPORTAPI CMAcceleration JSValueTo_CMAcceleration(JSContextRef ctx, JSValueRef value, JSValueRef *exception)',
+			'EXPORTAPI CMAcceleration * JSValueTo_CMAcceleration(JSContextRef ctx, JSValueRef value, JSValueRef *exception)',
 			'{',
 			'\tauto p = JSObjectGetPrivate(JSValueToObject(ctx,value,exception));',
 			'\tauto po = reinterpret_cast<NativeCMAcceleration>(p);',
@@ -259,17 +258,18 @@ describe('#types', function(){
 		typelib.metabase = metabase;
 		var type = typelib.resolveType('CLLocationCoordinate2D');
 		var preamble = [], cleanup = [], declare = [];
-		type.toNativeBody("value",preamble,cleanup,declare).should.equal('JSValueTo_CLLocationCoordinate2D(ctx,value,exception)');
-		preamble.should.be.empty;
+		type.toNativeBody("value",preamble,cleanup,declare).should.equal('valuebuf2->getObject()');
+		preamble.should.not.be.empty;
+		preamble[0].should.be.equal('auto valuebuf = static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
 		cleanup.should.be.empty;
-		declare.should.not.be.empty;
-		declare[0].should.be.equal('EXPORTAPI CLLocationCoordinate2D JSValueTo_CLLocationCoordinate2D(JSContextRef,JSValueRef,JSValueRef *);');
+		declare.should.be.empty;
 		declare = [];
 		type.toJSBody("value",preamble,cleanup,declare).should.equal('CLLocationCoordinate2D_ToJSValue(ctx,value,exception)');
-		preamble.should.be.empty;
+		preamble.should.not.be.empty;
+		preamble[0].should.be.equal('auto valuebuf = static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
 		cleanup.should.be.empty;
 		declare.should.not.be.empty;
-		declare[0].should.be.equal('JSValueRef CLLocationCoordinate2D_ToJSValue(JSContextRef,CLLocationCoordinate2D,JSValueRef *);');
+		declare[0].should.be.equal('JSValueRef CLLocationCoordinate2D_ToJSValue(JSContextRef,CLLocationCoordinate2D *,JSValueRef *);');
 	});
 
 	it('NSStringEncoding', function(){
