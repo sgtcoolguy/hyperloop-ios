@@ -262,4 +262,99 @@ describe("iOS Compiler front-end", function() {
 
 		done();
 	});
+
+	it("should transform function", function(done) {
+		this.timeout(100000);
+		var arch = 'i386',
+			build_opts = {DEBUG:true,OBFUSCATE:false},
+			state = {};
+		source = '"use hyperloop"\nvar obj = CGPointMake(1,2);';
+
+		should.exist(iosMetabase);
+
+		state.metabase = iosMetabase;
+		state.libfile = 'blah';
+		state.symbols = {};
+		state.obfuscate = false;
+		compiler.compile({platform:'ios'}, state, ios_compiler, arch, source, 'filename', 'filename.js', build_opts);
+
+		should.exist(state.symbols);
+		state.symbols.should.be.an.Object;
+		var method = _.find(state.symbols, function(value, key) {
+			return value.location.line == 2;
+		});
+		should.exist(method);
+		method.type.should.eql('function');
+		method.symbolname.should.eql('CGPointMake_function');
+		method.returnType.should.eql('CGPoint');
+		should.exist(method.function);
+		method.function.name.should.eql('CGPointMake');
+		method.function.signature.should.eql('CGPoint (CGFloat, CGFloat)');
+
+		done();
+	});
+
+	it("should transform struct getter", function(done) {
+		this.timeout(100000);
+		var arch = 'i386',
+			build_opts = {DEBUG:true,OBFUSCATE:false},
+			state = {};
+		source = '"use hyperloop"\nvar obj = CGPointMake(1,2);\nvar x = obj.x;';
+
+		should.exist(iosMetabase);
+
+		state.metabase = iosMetabase;
+		state.libfile = 'blah';
+		state.symbols = {};
+		state.obfuscate = false;
+		compiler.compile({platform:'ios'}, state, ios_compiler, arch, source, 'filename', 'filename.js', build_opts);
+
+		should.exist(state.symbols);
+		state.symbols.should.be.an.Object;
+		var method = _.find(state.symbols, function(value, key) {
+			return value.location.line == 3;
+		});
+		should.exist(method);
+		method.type.should.eql('statement');
+		method.metatype.should.eql('getter');
+		method.symbolname.should.eql('CGPoint_Get_x');
+		method.class.should.eql('CGPoint');
+		should.exist(method.property);
+		method.property.name.should.eql('x');
+		method.property.subtype.should.eql('CGFloat');
+
+		done();
+	});
+
+	it("should transform struct setter", function(done) {
+		this.timeout(100000);
+		var arch = 'i386',
+			build_opts = {DEBUG:true,OBFUSCATE:false},
+			state = {};
+		source = '"use hyperloop"\nvar obj = CGPointMake(1,2);\nobj.y = 3;';
+
+		should.exist(iosMetabase);
+
+		state.metabase = iosMetabase;
+		state.libfile = 'blah';
+		state.symbols = {};
+		state.obfuscate = false;
+		compiler.compile({platform:'ios'}, state, ios_compiler, arch, source, 'filename', 'filename.js', build_opts);
+
+		should.exist(state.symbols);
+		state.symbols.should.be.an.Object;
+		var method = _.find(state.symbols, function(value, key) {
+			return value.location.line == 3 && value.metatype == 'setter';
+		});
+		should.exist(method);
+		method.type.should.eql('statement');
+		method.metatype.should.eql('setter');
+		method.symbolname.should.eql('CGPoint_Set_y');
+		method.class.should.eql('CGPoint');
+		should.exist(method.property);
+		method.property.name.should.eql('y');
+		method.property.subtype.should.eql('CGFloat');
+
+		done();
+	});
 }); 
