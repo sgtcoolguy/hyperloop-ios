@@ -117,7 +117,7 @@ describe("Compiler front-end", function() {
 			logs.info[0].should.equal('1.01 1 1 true false [object Object] /a/ null undefined 3 3');
 			logs.info[1].should.equal('typeof(numLen)? object');
 			logs.info[2].should.equal('numLen==numLen? true');
-			logs.info[3].should.equal('(null)'); // because object-to-string is not implemented yet
+			logs.info[3].should.equal('3');
 			done();
 		});
 	});
