@@ -1,7 +1,7 @@
 "use hyperloop"
 
 var frame = CGRectMake(100,100,20,20);
-var view = new UIView(frame);
+var view = Hyperloop.ctor(UIView, 'initWithFrame:').call(frame);
 
 view.constraints().count();
 view.constraints().description().description();
