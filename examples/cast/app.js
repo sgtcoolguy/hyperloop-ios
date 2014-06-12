@@ -10,5 +10,5 @@ var numLen = NSNumber.numberWithDouble(length);
 console.log(1.01,1,"1",true,false,{},/a/,null,undefined,numLen,String(numLen));
 console.log("typeof(numLen)?",typeof(numLen));
 console.log("numLen==numLen?",numLen == numLen);
-NSLog(NSString.stringWithUTF8String("[ERROR] %@"), numLen);
+NSLog(NSString.stringWithUTF8String("[INFO] %@"), numLen);
 console.log('TI_EXIT');

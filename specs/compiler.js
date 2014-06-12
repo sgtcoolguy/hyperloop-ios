@@ -113,10 +113,11 @@ describe("Compiler front-end", function() {
 	it('should test cast app',function(done){
 		compileApp('cast',function(logs){
 			logs.info.should.not.be.empty;
-			logs.info.should.have.length(3);
+			logs.info.should.have.length(4);
 			logs.info[0].should.equal('1.01 1 1 true false [object Object] /a/ null undefined 3 3');
 			logs.info[1].should.equal('typeof(numLen)? object');
 			logs.info[2].should.equal('numLen==numLen? true');
+			logs.info[3].should.equal('3');
 			done();
 		});
 	});

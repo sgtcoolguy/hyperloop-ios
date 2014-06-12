@@ -1,7 +1,8 @@
 "use hyperloop"
 var frame = CGRectMake(100,100,20,20);
-var window = new UIWindow();
-var view = new UIView(frame);
+var bounds = UIScreen.mainScreen().bounds;
+var window = Hyperloop.method(UIWindow, 'initWithFrame:').call(bounds);
+var view = Hyperloop.method(UIView, 'initWithFrame:').call(frame);
 var nativeObjects = {
 	get frame() {
 		return frame;

@@ -1,7 +1,7 @@
 "use hyperloop"
 
 var frame = CGRectMake(100,100,20,20);
-var view = new UIView(frame);
+var view = Hyperloop.method(UIView, 'initWithFrame:').call(frame);
 
 // drawRect:(CGRect)rect
 // if argument count equals 0 or 1 it does not causes ambiguity in Objective-C
