@@ -30,6 +30,7 @@ module.exports = new Command(
 			var target = options.target || /(i386|simulator)/.test(arch) ? 'simulator' : null,
 				targetObj = ioslib[target],
 				platform = /(i386|simulator)/.test(arch) ? 'simulator' : 'os',
+				label = platform==='simulator' ? platform : 'device',
 				safeName = options.safeName,
 				builddir = path.resolve(options.dest),
 				launch_timeout = options.launch_timeout,
@@ -41,6 +42,7 @@ module.exports = new Command(
 			}
 
 			tasks.push(function(next){
+				log.info('|------- '+((label+' log started').magenta.bold)+' -------|');
 
 				function logger(label,message){
 					log[label] && log[label](message);
@@ -57,6 +59,7 @@ module.exports = new Command(
 			});
 
 			async.waterfall(tasks,function(err){
+				log.info('|------- '+((label+' log finished').magenta.bold)+' -------|');
 				done(err);
 			});
 
