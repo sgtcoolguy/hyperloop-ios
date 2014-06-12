@@ -58,7 +58,8 @@
     "wrench": "1.5.4",
     "semver": "2.2.1",
     "uglify-js": "^2.4.13",
-    "prompt": "~0.2.12"
+    "prompt": "~0.2.12",
+    "ioslib": "~0.1.10"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

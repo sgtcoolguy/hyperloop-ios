@@ -4,11 +4,10 @@
 var hyperloop = require('../../lib/dev').require('hyperloop-common'),
 	log = hyperloop.log,
 	Command = hyperloop.Command,
-	buildlib = require('../../lib/buildlib'),
-	launcher = require('../../lib/launcher'),
 	path = require('path'),
 	fs = require('fs'),
-	async = require('async');
+	async = require('async'),
+	ioslib = require('ioslib');
 
 module.exports = new Command(
 	'launch',
@@ -19,6 +18,7 @@ module.exports = new Command(
 		try {
 			var options = state.options,
 				tasks = [],
+				arch = /(i386|simulator)/.test(state.arch || options.arch || 'i386') ? 'i386' : 'armv7',
 				fn = path.join(options.dest,'lib'+options.name+'.a');
 
 			if (!fs.existsSync(fn)) {
@@ -27,32 +27,36 @@ module.exports = new Command(
 				});
 			}
 
-			tasks.push(function(next){
-				var arch = /(i386|simulator)/.test(state.arch || options.arch || 'i386') ? 'i386' : 'armv7',
-					platform = /(i386|simulator)/.test(arch) ? 'simulator' : 'os',
-					safeName = options.safeName,
-					builddir = path.resolve(options.dest),
-					launch_timeout = options.launch_timeout,
-					device_id = state.device_id || options.device_id,
-					appdir = path.join(builddir, 'build', 'Release-iphone' + platform, safeName + '.app');
+			var target = options.target || /(i386|simulator)/.test(arch) ? 'simulator' : null,
+				targetObj = ioslib[target],
+				platform = /(i386|simulator)/.test(arch) ? 'simulator' : 'os',
+				safeName = options.safeName,
+				builddir = path.resolve(options.dest),
+				launch_timeout = options.launch_timeout,
+				device_id = state.device_id || options.device_id,
+				build_dir = path.join(builddir, 'build', 'Release-iphone' + platform, safeName + '.app');
 
-				if (options.packageType === 'module') {
-					return next('launch command is not supported for modules, yet.');
+			if (!targetObj) {
+				log.fatal("target: "+target+" not supported");
+			}
+
+			tasks.push(function(next){
+
+				function logger(label,message){
+					log[label](message);
 				}
-				buildlib.getXcodeSettings(function(err, settings) {
-					if (err) {
-						return done(err);
-					}
-					if (platform === 'simulator') {
-						launcher.executeSimulator(options.name, appdir, settings, next, options.logger, options.hidden, options.unit, launch_timeout);
-					}
-					else {
-						launcher.executeDevice(options.name, appdir, settings, next, options.logger, options.hidden, device_id, options.quiet, options.unit, launch_timeout);
-					}
-				});
+
+				var launchOptions = {
+					build_dir: build_dir,
+					logger: logger,
+					callback: next,
+					hide: false,
+					auto_exit: false
+				};
+				targetObj.launch(launchOptions);
 			});
 
-			async.series(tasks,function(err){
+			async.waterfall(tasks,function(err){
 				done(err);
 			});
 
