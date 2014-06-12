@@ -43,15 +43,15 @@ module.exports = new Command(
 			tasks.push(function(next){
 
 				function logger(label,message){
-					log[label](message);
+					log[label] && log[label](message);
 				}
 
 				var launchOptions = {
 					build_dir: build_dir,
 					logger: logger,
 					callback: next,
-					hide: false,
-					auto_exit: false
+					hide: options.hide,
+					auto_exit: options.auto_exit
 				};
 				targetObj.launch(launchOptions);
 			});
