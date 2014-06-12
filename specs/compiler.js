@@ -25,19 +25,11 @@ function compileApp(name, done) {
 	else {
 		options.src = path.join(__dirname,'..','examples',name);
 	}
-	var logs = {}, state = {};
-	options.logger = {};
-	// setup a programmatic logger to capture logs at various levels
-	function makeLogger(label) {
-		return function(msg) {
-			logs[label].push(msg);
-			log[label](msg);
-		};
+	var logs = {debug:[],info:[],trace:[],fatal:[],warn:[],error:[]}, state = {};
+	options.logger = function(label,message){
+		logs[label].push(message);
+		log[label](message);
 	}
-	['debug','info','trace','warn','error','fatal'].forEach(function(label){
-		logs[label] = [];
-		options.logger[label] = makeLogger(label);
-	});
 	var platform = require('../');
 	platform.directory = path.join(__dirname,'..');
 	var tasks = [];
@@ -87,6 +79,7 @@ describe("Compiler front-end", function() {
 			simulator_only: true,
 			unit: true,
 			hide: true,
+			auto_exit: true,
 			'log-level': 'trace'
 		};
 		wrench.mkdirSyncRecursive(options.dest);
@@ -111,19 +104,19 @@ describe("Compiler front-end", function() {
 
 	it('should test basic app',function(done){
 		compileApp('basic',function(logs){
-			logs.debug.should.not.be.empty;
-			logs.debug.join('').should.match(/global=/);
+			logs.info.should.not.be.empty;
+			logs.info.join('').should.match(/global=/);
 			done();
 		});
 	});
 
 	it('should test cast app',function(done){
 		compileApp('cast',function(logs){
-			logs.debug.should.not.be.empty;
-			logs.debug.should.have.length(3);
-			logs.debug[0].should.equal('1.01 1 1 true false [object Object] /a/ null undefined 3 3');
-			logs.debug[1].should.equal('typeof(numLen)? object');
-			logs.debug[2].should.equal('numLen==numLen? true');
+			logs.info.should.not.be.empty;
+			logs.info.should.have.length(3);
+			logs.info[0].should.equal('1.01 1 1 true false [object Object] /a/ null undefined 3 3');
+			logs.info[1].should.equal('typeof(numLen)? object');
+			logs.info[2].should.equal('numLen==numLen? true');
 			done();
 		});
 	});
@@ -132,58 +125,58 @@ describe("Compiler front-end", function() {
 	//which has updated node_modules folder under examples/require
 	(process.env.TRAVIS ? it.skip : it)('should test common require app',function(done){
 		compileApp('common/require',function(logs){
-			logs.debug.should.not.be.empty;
-			logs.debug.should.have.length(26);
-			logs.debug[0].should.equal('should be /app.js => /app.js');
-			logs.debug[1].should.equal('should be /a.js => /a.js');
-			logs.debug[2].should.equal('b should be 2 => 2');
-			logs.debug[3].should.equal('a.js child[0] =>  /a.js');
-			logs.debug[4].should.equal('should be /node_modules/c.js => /node_modules/c.js');
-			logs.debug[5].should.equal('c.js parent is /app.js => /app.js');
-			logs.debug[6].should.equal('should be /node_modules/e/main.js => /node_modules/e/main.js');
-			logs.debug[7].should.equal('should be /node_modules/e/main.js => /node_modules/e/main.js');
-			logs.debug[8].should.equal('should be 6 =>  6');
-			logs.debug[9].should.equal('should be bar =>  bar');
-			logs.debug[10].should.equal('a should be 1 => 6');
-			logs.debug[11].should.equal('b should be 2 => bar');
-			logs.debug[12].should.equal('c should be 1 => 1');
-			logs.debug[13].should.equal('d should be 1 => 1');
-			logs.debug[14].should.equal('e should be 2 => 2');
-			logs.debug[15].should.equal('f should be 3 => 3');
-			logs.debug[16].should.equal('j should be world => world');
-			logs.debug[17].should.equal('k should be 4 => 4');
-			logs.debug[18].should.equal('l should be 5 => 5');
-			logs.debug[19].should.equal('m should be 1 => 1');
-			logs.debug[20].should.equal('z should be 1 => 1');
-			logs.debug[21].should.equal('fn should be 10 => 10');
-			logs.debug[22].should.equal('should be true => true');
-			logs.debug[23].should.equal('should be /app.js => /app.js');
-			logs.debug[24].should.equal('app.js children => 1');
-			logs.debug[25].should.equal('app.js child[0] =>  /app.js');
+			logs.info.should.not.be.empty;
+			logs.info.should.have.length(26);
+			logs.info[0].should.equal('should be /app.js => /app.js');
+			logs.info[1].should.equal('should be /a.js => /a.js');
+			logs.info[2].should.equal('b should be 2 => 2');
+			logs.info[3].should.equal('a.js child[0] =>  /a.js');
+			logs.info[4].should.equal('should be /node_modules/c.js => /node_modules/c.js');
+			logs.info[5].should.equal('c.js parent is /app.js => /app.js');
+			logs.info[6].should.equal('should be /node_modules/e/main.js => /node_modules/e/main.js');
+			logs.info[7].should.equal('should be /node_modules/e/main.js => /node_modules/e/main.js');
+			logs.info[8].should.equal('should be 6 =>  6');
+			logs.info[9].should.equal('should be bar =>  bar');
+			logs.info[10].should.equal('a should be 1 => 6');
+			logs.info[11].should.equal('b should be 2 => bar');
+			logs.info[12].should.equal('c should be 1 => 1');
+			logs.info[13].should.equal('d should be 1 => 1');
+			logs.info[14].should.equal('e should be 2 => 2');
+			logs.info[15].should.equal('f should be 3 => 3');
+			logs.info[16].should.equal('j should be world => world');
+			logs.info[17].should.equal('k should be 4 => 4');
+			logs.info[18].should.equal('l should be 5 => 5');
+			logs.info[19].should.equal('m should be 1 => 1');
+			logs.info[20].should.equal('z should be 1 => 1');
+			logs.info[21].should.equal('fn should be 10 => 10');
+			logs.info[22].should.equal('should be true => true');
+			logs.info[23].should.equal('should be /app.js => /app.js');
+			logs.info[24].should.equal('app.js children => 1');
+			logs.info[25].should.equal('app.js child[0] =>  /app.js');
 			done();
 		});
 	});
 
 	it('should test common vm app',function(done){
 		compileApp('common/vm',function(logs){
-			logs.debug.should.not.be.empty;
-			logs.debug.should.have.length(16);
-			logs.debug[0].should.equal('script should be 1=> 1');
-			logs.debug[1].should.equal('script should be 2=> 2');
-			logs.debug[2].should.equal('script should be filename=> filename');
-			logs.debug[3].should.equal('script should be yes=> yes');
-			logs.debug[4].should.equal('script should be Foo=> Foo');
-			logs.debug[5].should.equal('foobar should be yes=> yes');
-			logs.debug[6].should.equal('c should be 0=> 0');
-			logs.debug[7].should.equal('executed anonymous function, good!');
-			logs.debug[8].should.equal('cool, worked');
-			logs.debug[9].should.equal('yes, worked');
-			logs.debug[10].should.equal('while worked');
-			logs.debug[11].should.equal('do...while worked');
-			logs.debug[12].should.equal('for..in worked');
-			logs.debug[13].should.equal('try/catch worked');
-			logs.debug[14].should.equal('const static should be 1=> 1');
-			logs.debug[15].should.equal('const variable should be 1=> 1');
+			logs.info.should.not.be.empty;
+			logs.info.should.have.length(16);
+			logs.info[0].should.equal('script should be 1=> 1');
+			logs.info[1].should.equal('script should be 2=> 2');
+			logs.info[2].should.equal('script should be filename=> filename');
+			logs.info[3].should.equal('script should be yes=> yes');
+			logs.info[4].should.equal('script should be Foo=> Foo');
+			logs.info[5].should.equal('foobar should be yes=> yes');
+			logs.info[6].should.equal('c should be 0=> 0');
+			logs.info[7].should.equal('executed anonymous function, good!');
+			logs.info[8].should.equal('cool, worked');
+			logs.info[9].should.equal('yes, worked');
+			logs.info[10].should.equal('while worked');
+			logs.info[11].should.equal('do...while worked');
+			logs.info[12].should.equal('for..in worked');
+			logs.info[13].should.equal('try/catch worked');
+			logs.info[14].should.equal('const static should be 1=> 1');
+			logs.info[15].should.equal('const variable should be 1=> 1');
 			done();
 		});
 	});

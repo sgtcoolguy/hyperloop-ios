@@ -42,7 +42,7 @@ module.exports = new Command(
 			}
 
 			tasks.push(function(next){
-				log.info('|------- '+((label+' log started').magenta.bold)+' -------|');
+				!options.logger && log.info('|------- '+((label+' log started').magenta.bold)+' -------|');
 
 				function logger(label,message){
 					log[label] && log[label](message);
@@ -50,7 +50,7 @@ module.exports = new Command(
 
 				var launchOptions = {
 					build_dir: build_dir,
-					logger: logger,
+					logger: options.logger || logger,
 					callback: next,
 					hide: options.hide,
 					auto_exit: options.auto_exit
@@ -59,7 +59,7 @@ module.exports = new Command(
 			});
 
 			async.waterfall(tasks,function(err){
-				log.info('|------- '+((label+' log finished').magenta.bold)+' -------|');
+				!options.logger && log.info('|------- '+((label+' log finished').magenta.bold)+' -------|');
 				done(err);
 			});
 
