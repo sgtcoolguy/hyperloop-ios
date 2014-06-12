@@ -37,7 +37,7 @@ module.exports = new Command(
 				build_dir = path.join(builddir, 'build', 'Release-iphone' + platform, safeName + '.app');
 
 			if (!targetObj) {
-				log.fatal("target: "+target+" not supported");
+				return done("target: "+target+" not supported");
 			}
 
 			tasks.push(function(next){
