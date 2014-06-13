@@ -59,7 +59,7 @@
     "semver": "2.2.1",
     "uglify-js": "^2.4.13",
     "prompt": "~0.2.12",
-    "ioslib": "~0.1.11"
+    "ioslib": "~0.1.13"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
