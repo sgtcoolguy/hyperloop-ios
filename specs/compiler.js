@@ -192,5 +192,15 @@ describe("Compiler front-end", function() {
 		});
 	});
 
+	it('should test struct app',function(done){
+		compileApp('struct',function(logs){
+			logs.info.should.not.be.empty;
+			logs.info[0].should.equal('point.x=10');
+			logs.info[1].should.equal('point.y=20');
+			logs.info[2].should.equal('point.x=11');
+			logs.info[3].should.equal('point.y=12');
+			done();
+		});
+	});
 
 });
