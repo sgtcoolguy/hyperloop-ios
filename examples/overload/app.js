@@ -10,4 +10,7 @@ view.drawRect(frame);
 // drawRect:forViewPrintFormatter:
 // if we have more than 2 arguments it could cause ambiguity, thus disambiguation needed
 Hyperloop.method(view, 'drawRect:forViewPrintFormatter:').call(frame,null);
+
+Hyperloop.method(NSString, 'localizedNameOfStringEncoding:').call(0);
+
 console.log('TI_EXIT');
