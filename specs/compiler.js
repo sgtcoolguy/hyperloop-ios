@@ -195,10 +195,24 @@ describe("Compiler front-end", function() {
 	it('should test struct app',function(done){
 		compileApp('struct',function(logs){
 			logs.info.should.not.be.empty;
+			logs.info.should.have.length(4);
 			logs.info[0].should.equal('point.x=10');
 			logs.info[1].should.equal('point.y=20');
 			logs.info[2].should.equal('point.x=11');
 			logs.info[3].should.equal('point.y=12');
+			done();
+		});
+	});
+
+	it('should test customclass app',function(done){
+		compileApp('customclass',function(logs){
+			logs.info.should.not.be.empty;
+			logs.info.should.have.length(5);
+			logs.info[0].should.equal('inside run(a)');
+			logs.info[1].should.match(/super <MyClass\: 0x(\w+)/);
+			logs.info[2].should.equal('result was [b]');
+			logs.info[3].should.equal('run2 was [1]');
+			logs.info[4].should.equal('MyClass2 run');
 			done();
 		});
 	});
