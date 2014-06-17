@@ -41,9 +41,10 @@ Hyperloop.defineClass(MyClass2)
 	})
 	.build();
 
-//FIXME - this doesn't work and should: new MyClass2().run()  
 
 var myClass2 = new MyClass2();
 myClass2.run();
+
+new MyClass2().run();
 
 console.log('TI_EXIT');

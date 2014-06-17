@@ -1,6 +1,6 @@
 "use hyperloop"
 var array = NSMutableArray.array();
-array.addObject(NSString.stringWithUTF8String("abc"));
+array.cast(NSMutableArray).addObject(NSString.stringWithUTF8String("abc"));
 var obj = array.objectAtIndex(0);
 var length = obj.cast(NSString).length();
 var numLen = NSNumber.numberWithDouble(length);
