@@ -4,6 +4,7 @@
 var hyperloop = require('../../lib/dev').require('hyperloop-common'),
 	log = hyperloop.log,
 	Command = hyperloop.Command,
+	util = hyperloop.util,
 	path = require('path'),
 	fs = require('fs'),
 	async = require('async'),
@@ -58,8 +59,24 @@ module.exports = new Command(
 				targetObj.launch(launchOptions);
 			});
 
-			async.waterfall(tasks,function(err){
+			async.waterfall(tasks,function(err,detail){
 				!options.logger && log.info('|------- '+((label+' log finished').magenta.bold)+' -------|');
+				if (err && err === 'launch crashed') {
+					var index = detail.report.crashing_thread_index,
+						thread = detail.report.threads[index],
+						thread_name = thread.thread_name,
+						exception_type = detail.report.exception_type,
+						binary = detail.report.binary_images,
+						backtrace = thread.backtrace.map(function(e, index){
+							var img = binary[e.binary_image_index].bundle_id;
+							return util.rpad(4,String(index)) +
+									util.rpad(25,img) +
+									'0x'+util.rpad(8-String(e.address).length,'','0')+e.address +
+									' '+e.symbol;
+						});
+					log.error('Launch crashed with error: '+exception_type)
+					log.error('Thread '+index+' Crashed:: '+thread_name+'\n'+backtrace.join('\n'));
+				}
 				done(err);
 			});
 

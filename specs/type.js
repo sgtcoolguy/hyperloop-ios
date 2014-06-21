@@ -301,5 +301,56 @@ describe('#types', function(){
 		cleanup.should.be.empty;
 		declare.should.be.empty;
 	});
+
+	it('void(^)(void)',function(){
+		typelib.metabase = {};
+		var type = typelib.resolveType('void(^)(void)');
+		var preamble = [], cleanup = [], declare = [];
+		var code = type.toNativeBody('fn',preamble, cleanup, declare);
+		preamble.should.not.be.empty;
+		preamble = preamble.join('\n');
+		should(preamble).match(/\(void\) = \^{/);
+		should(preamble).match(/void\(\^var[\d+]Block\)\(void\)/);
+		should(code).match(/^var[\d+]Block$/);
+	});
+
+	it('int(^)(void)',function(){
+		typelib.metabase = {};
+		var type = typelib.resolveType('int(^)(void)');
+		var preamble = [], cleanup = [], declare = [];
+		var code = type.toNativeBody('fn',preamble, cleanup, declare);
+		preamble.should.not.be.empty;
+		preamble = preamble.join('\n');
+		should(preamble).match(/\(void\) = \^{/);
+		should(preamble).match(/int\(\^var[\d+]Block\)\(void\)/);
+		should(preamble).match(/return var[\d+]BlockResult;/);
+		should(code).match(/^var[\d+]Block$/);
+	});
+
+	it('int(^)(int)',function(){
+		typelib.metabase = {};
+		var type = typelib.resolveType('int(^)(int)');
+		var preamble = [], cleanup = [], declare = [];
+		var code = type.toNativeBody('fn',preamble, cleanup, declare);
+		preamble.should.not.be.empty;
+		preamble = preamble.join('\n');
+		should(preamble).match(/\(int\) = \^\(int arg0\){/);
+		should(preamble).match(/int\(\^var[\d+]Block\)\(int\)/);
+		should(preamble).match(/return var[\d+]BlockResult;/);
+		should(code).match(/^var[\d+]Block$/);
+	});
+
+	it('int(^)(int,float)',function(){
+		typelib.metabase = {};
+		var type = typelib.resolveType('int(^)(int,float)');
+		var preamble = [], cleanup = [], declare = [];
+		var code = type.toNativeBody('fn',preamble, cleanup, declare);
+		preamble.should.not.be.empty;
+		preamble = preamble.join('\n');
+		should(preamble).match(/\(int,float\) = \^\(int arg0, float arg1\){/);
+		should(preamble).match(/int\(\^var[\d+]Block\)\(int,float\)/);
+		should(preamble).match(/return var[\d+]BlockResult;/);
+		should(code).match(/^var[\d+]Block$/);
+	});
 });
 
