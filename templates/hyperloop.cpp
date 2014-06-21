@@ -34,5 +34,7 @@ EXPORTAPI id JSValueTo_id(JSContextRef ctx, JSValueRef value, JSValueRef *except
  */
 EXPORTAPI void HyperloopNativeLogger(const char *str)
 {
-    NSLog(@"%s",str);
+	NSString *msg = [[NSString alloc] initWithUTF8String:str];
+	NSLog(@"%@",msg);
+	[msg release];
 }
