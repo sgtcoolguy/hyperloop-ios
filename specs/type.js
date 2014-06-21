@@ -83,6 +83,7 @@ describe('#types', function(){
 		cleanup.should.be.empty;
 		declare.should.be.empty;
 
+
 		var code = [],	
 			lib = require('../lib/library');
 		library.compileType({},metabase,{},lib,'CMAcceleration',type,code);
@@ -310,8 +311,8 @@ describe('#types', function(){
 		preamble.should.not.be.empty;
 		preamble = preamble.join('\n');
 		should(preamble).match(/\(void\) = \^{/);
-		should(preamble).match(/void\(\^var[\d+]Block\)\(void\)/);
-		should(code).match(/^var[\d+]Block$/);
+		should(preamble).match(/void\(\^var[\d]+Block\)\(void\)/);
+		should(code).match(/^var[\d]+Block$/);
 	});
 
 	it('int(^)(void)',function(){
@@ -322,9 +323,9 @@ describe('#types', function(){
 		preamble.should.not.be.empty;
 		preamble = preamble.join('\n');
 		should(preamble).match(/\(void\) = \^{/);
-		should(preamble).match(/int\(\^var[\d+]Block\)\(void\)/);
-		should(preamble).match(/return var[\d+]BlockResult;/);
-		should(code).match(/^var[\d+]Block$/);
+		should(preamble).match(/int\(\^var[\d]+Block\)\(void\)/);
+		should(preamble).match(/return var[\d]+BlockResult;/);
+		should(code).match(/^var[\d]+Block$/);
 	});
 
 	it('int(^)(int)',function(){
@@ -335,9 +336,9 @@ describe('#types', function(){
 		preamble.should.not.be.empty;
 		preamble = preamble.join('\n');
 		should(preamble).match(/\(int\) = \^\(int arg0\){/);
-		should(preamble).match(/int\(\^var[\d+]Block\)\(int\)/);
-		should(preamble).match(/return var[\d+]BlockResult;/);
-		should(code).match(/^var[\d+]Block$/);
+		should(preamble).match(/int\(\^var[\d]+Block\)\(int\)/);
+		should(preamble).match(/return var[\d]+BlockResult;/);
+		should(code).match(/^var[\d]+Block$/);
 	});
 
 	it('int(^)(int,float)',function(){
@@ -348,9 +349,9 @@ describe('#types', function(){
 		preamble.should.not.be.empty;
 		preamble = preamble.join('\n');
 		should(preamble).match(/\(int,float\) = \^\(int arg0, float arg1\){/);
-		should(preamble).match(/int\(\^var[\d+]Block\)\(int,float\)/);
-		should(preamble).match(/return var[\d+]BlockResult;/);
-		should(code).match(/^var[\d+]Block$/);
+		should(preamble).match(/int\(\^var[\d]+Block\)\(int,float\)/);
+		should(preamble).match(/return var[\d]+BlockResult;/);
+		should(code).match(/^var[\d]+Block$/);
 	});
 });
 

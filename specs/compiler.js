@@ -182,12 +182,17 @@ describe("Compiler front-end", function() {
 		});
 	});
 
-	it.skip('should test common unicode app',function(done){
-		//FIXME: this is currently not working for iOS
+	it('should test common unicode app',function(done){
 		compileApp('common/unicode',function(logs){
-			console.log(logs);
-			logs.debug.should.not.be.empty;
-			logs.debug.should.have.length(7);
+			logs.info.should.not.be.empty;
+			logs.info.should.have.length(7);
+			logs.info[0].should.equal('こんにちは');
+			logs.info[1].should.equal('مرحبا');
+			logs.info[2].should.equal('שלום');
+			logs.info[3].should.equal('สวัสดี');
+			logs.info[4].should.equal('привет');
+			logs.info[5].should.equal('你好');
+			logs.info[6].should.equal('ஹலோ');
 			done();
 		});
 	});
@@ -225,6 +230,17 @@ describe("Compiler front-end", function() {
 			logs.info[0].should.equal('count= 0');
 			logs.info[1].should.equal('description= (');
 			logs.info[2].should.equal(')');
+			done();
+		});
+	});
+
+	it('should test backgroundFetch app',function(done){
+		compileApp('backgroundFetch',function(logs){
+			logs.info.should.not.be.empty;
+			logs.info.should.have.length(3);
+			logs.info[0].should.equal('weatherUrl= http://api.openweathermap.org/data/2.5/weather?lat=37.389587&lon=-122.05037');
+			logs.info[1].should.equal('url= http://api.openweathermap.org/data/2.5/weather?lat=37.389587&lon=-122.05037');
+			logs.info[2].should.match(/^The weather in Mtn\. View is [\w\s]+$/);
 			done();
 		});
 	});

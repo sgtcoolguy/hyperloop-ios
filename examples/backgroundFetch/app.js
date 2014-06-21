@@ -15,6 +15,7 @@ function completionHandler(data,response,error) {
 		var result = JSON.parse(str);
 		var weather = "The weather in Mtn. View is "+result.weather[0].description;
 		console.log(weather);
+		console.log('TI_EXIT');
 	}
 	catch (E){
 		console.log('error',E); 
