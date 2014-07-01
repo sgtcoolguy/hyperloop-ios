@@ -20,8 +20,8 @@ var win = UIApplication.sharedApplication().keyWindow,
 label.textColor = UIColor.darkTextColor();
 label.frame = CGRectMake(20, 20, 280, 280);
 label.font = UIFont.systemFontOfSize(24);
-//label.textAlignment = NSTextAlignmentCenter; // FIXME Use the enum
-//label.lineBreakMode = NSLineBreakByWordWrapping; // FIXME Use the enum
+label.textAlignment = NSTextAlignmentCenter;
+label.lineBreakMode = NSLineBreakByWordWrapping;
 label.numberOfLines = 0;
 label.text = 'Loading weather...'.toUTF8();
 win.addSubview(label);
