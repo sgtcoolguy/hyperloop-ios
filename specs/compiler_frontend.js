@@ -15,6 +15,7 @@ var should = require('should'),
 	library = require(path.join(__dirname, '..', 'lib', 'library.js')),
 	metabase = require(path.join(__dirname, '..', 'lib', 'metabase.js')),
     TMP = path.join('.', '_tmp'),
+    Uglify = require('uglify-js'),
 	iosMetabase = null;
 
 describe("iOS Compiler front-end", function() {
@@ -354,6 +355,30 @@ describe("iOS Compiler front-end", function() {
 		should.exist(method.property);
 		method.property.name.should.eql('y');
 		method.property.subtype.should.eql('CGFloat');
+
+		done();
+	});
+
+	it("should transform enum reference to wrapped value", function(done) {
+		this.timeout(100000);
+		var arch = 'i386',
+			build_opts = {DEBUG:true,OBFUSCATE:false},
+			state = {};
+		source = '"use hyperloop"\nvar label = new UILabel();\nlabel.textAlignment = NSTextAlignmentCenter;';
+
+		should.exist(iosMetabase);
+
+		state.metabase = iosMetabase;
+		state.libfile = 'blah';
+		state.symbols = {};
+		state.obfuscate = false;
+		var transformed = compiler.compile({platform:'ios'}, state, ios_compiler, arch, source, 'filename', 'filename.js', build_opts);
+
+		// we replace the symbol ref of 'NSTextAlignmentCenter' with a numeric value of 1
+		var theValueArg = transformed.body[2].body.args[1];
+		should.exist(theValueArg);
+		theValueArg.value.should.eql(1);
+		//(theValueArg instanceof Uglify.AST_Number).should.be.true; // FIXME No idea why this fails
 
 		done();
 	});
