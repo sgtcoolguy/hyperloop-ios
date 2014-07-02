@@ -38,7 +38,7 @@ module.exports = function(grunt) {
       test: {
         options: {
           reporter: 'spec',
-          timeout: process.env.TRAVIS ? '60000' : '30000'
+          timeout: process.env.TRAVIS ? '120000' : '60000'
         },
         src: ['specs/**/*.js']
       }
