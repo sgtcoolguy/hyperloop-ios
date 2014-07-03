@@ -11,11 +11,13 @@ keyWindow.addSubview(contentView);
 var supportedColorNames = ['Cyan','Magenta','Yellow'],
 	longPressClassType = UILongPressGestureRecognizer.class();
 
-function adjustAnchorPointForGestureRecognizer(gview, gestureRecognizer)
+function adjustAnchorPointForGestureRecognizer(_gview, _gestureRecognizer)
 {
+	var gestureRecognizer = _gestureRecognizer.cast('UIGestureRecognizer');
+	var gview = _gview.cast('UIView');
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        var locationInView = gestureRecognizer.locationInView(gview),
-        	locationInSuperview = gestureRecognizer.locationInView(gview.superview);
+        var locationInView = gestureRecognizer.locationInView(gview).cast('CGPoint'), // TODO: should work without cast
+        	locationInSuperview = gestureRecognizer.locationInView(gview.superview).cast('CGPoint');
 
         gview.layer.anchorPoint = CGPointMake(locationInView.x / gview.bounds.size.width, locationInView.y / gview.bounds.size.height);
         gview.center = locationInSuperview;
@@ -30,7 +32,7 @@ Hyperloop.defineClass(GestureRecognizer)
 		returnType: 'void',
 		arguments: [{type:'UIPanGestureRecognizer',name:'gestureRecognizer'}],
 		action: function(params) {
-			var gestureRecognizer = params.gestureRecognizer,
+			var gestureRecognizer = params.gestureRecognizer.cast('UIPanGestureRecognizer'),
 				state = gestureRecognizer.state;
 			if (state == UIGestureRecognizerStateBegan ||
 				state == UIGestureRecognizerStateChanged)
@@ -79,8 +81,8 @@ Hyperloop.defineClass(GestureRecognizer)
 		returnType: 'BOOL',
 		arguments: [{type:'UIGestureRecognizer',name:'gestureRecognizer'}, {type:'UIGestureRecognizer',name:'shouldRecognizeSimultaneouslyWithGestureRecognizer',property:'otherGestureRecognizer'}],
 		action: function(params){
-			var gestureRecognizer = params.gestureRecognizer,
-				otherGestureRecognizer = params.otherGestureRecognizer;
+			var gestureRecognizer = params.gestureRecognizer.cast('UIGestureRecognizer'),
+				otherGestureRecognizer = params.otherGestureRecognizer.cast('UIGestureRecognizer');
 			if (gestureRecognizer.view!=otherGestureRecognizer.view) {
 				return false;
 			}
@@ -97,18 +99,16 @@ function TouchableView(colorName) {
 	
 	var imageBaseName = NSString.stringWithUTF8String(colorName+'Square'),
 		image = UIImage.imageNamed(imageBaseName),
-		imageViewAlloc = UIImageView.alloc(),
-		imageView = imageViewAlloc.initWithImage(image),
+		imageView = Hyperloop.method(UIImageView, 'initWithImage:').call(image),
 		frame = imageView.frame,
-		viewAlloc = UIView.alloc(),
-		view = viewAlloc.initWithFrame(frame),
-		gestureRecognizerDelegate = new GestureRecognizer(),		
-		panobj = UIPanGestureRecognizer.alloc(),
-		pinchobj = UIPinchGestureRecognizer.alloc(),
-		rotationobj = UIRotationGestureRecognizer.alloc(),
-		panGestureRecognizer = panobj.initWithTarget(gestureRecognizerDelegate,NSSelectorFromString('panView:')),
-		pinchGestureRecognizer = pinchobj.initWithTarget(gestureRecognizerDelegate,NSSelectorFromString('scaleView:')),
-		rotationGestureRecognizer = rotationobj.initWithTarget(gestureRecognizerDelegate,NSSelectorFromString('rotateView:'));
+		view = Hyperloop.method(UIView,'initWithFrame:').call(frame),
+		gestureRecognizerDelegate = new GestureRecognizer(),
+		selPanView = NSSelectorFromString('panView:'),
+		selPinchView = NSSelectorFromString('scaleView:'),
+		selRotateView = NSSelectorFromString('rotateView:'),
+		panGestureRecognizer = Hyperloop.method(UIPanGestureRecognizer,'initWithTarget:action:').call(gestureRecognizerDelegate,selPanView),
+		pinchGestureRecognizer = Hyperloop.method(UIPinchGestureRecognizer,'initWithTarget:action:').call(gestureRecognizerDelegate,selPinchView),
+		rotationGestureRecognizer = Hyperloop.method(UIRotationGestureRecognizer, 'initWithTarget:action:').call(gestureRecognizerDelegate,selRotateView);
 	
 	view.addGestureRecognizer(panGestureRecognizer);
 	view.addGestureRecognizer(pinchGestureRecognizer);
@@ -127,14 +127,15 @@ var views = [];
 
 function resetViews() {
 
-	UIView.beginAnimations(null,null);
+	//UIView.beginAnimations(null,null);
 
 	var totalViewSize = CGSizeMake(0,0),
 		anchorPoint = CGPointMake(0.5, 0.5);
 
-	views.forEach(function(view){
+	views.forEach(function(_view){
+		var view = _view.cast('UIView');
 		view.layer.anchorPoint = anchorPoint;
-		view.transform = CGAffineTransformIdentity;
+		//view.transform = CGAffineTransformIdentity;
 		var size = view.bounds.size;
 		totalViewSize.width  += size.width;
         totalViewSize.height += size.height;
@@ -146,7 +147,8 @@ function resetViews() {
     locationInContainerView.x = (containerViewSize.width  - totalViewSize.width)  / 2;
     locationInContainerView.y = (containerViewSize.height - totalViewSize.height) / 2;
 
-	views.forEach(function(view){
+	views.forEach(function(_view){
+		var view = _view.cast('UIView');
 		var frame = view.frame;
 		frame.origin = locationInContainerView;
         view.frame = frame;
@@ -154,7 +156,7 @@ function resetViews() {
         locationInContainerView.y += frame.size.height;
 	});
 
-	UIView.commitAnimations();
+	//UIView.commitAnimations();
 }
 
 try {
@@ -170,4 +172,3 @@ catch(E) {
 	console.log(E.message+' at '+E.line);
 	console.log(E.stack);
 }
-
