@@ -39,7 +39,7 @@ try {
 		.protocol('UIGestureRecognizerDelegate')
 		.method({
 			name: 'panView',
-			returnType: 'void',
+			returns: 'void',
 			arguments: [{type:'UIPanGestureRecognizer',name:'gestureRecognizer'}],
 			action: function(_gestureRecognizer) {
 				var gestureRecognizer = _gestureRecognizer.cast('UIPanGestureRecognizer'),
@@ -60,7 +60,7 @@ try {
 		})
 		.method({
 			name: 'scaleView',
-			returnType: 'void',
+			returns: 'void',
 			arguments: [{type:'UIPinchGestureRecognizer',name:'gestureRecognizer'}],
 			action: function(_gestureRecognizer) {
 				try {
@@ -79,7 +79,7 @@ try {
 		})
 		.method({
 			name: 'rotateView',
-			returnType: 'void',
+			returns: 'void',
 			arguments: [{type:'UIRotationGestureRecognizer',name:'gestureRecognizer'}],
 			action: function(_gestureRecognizer) {
 				try {
@@ -97,7 +97,7 @@ try {
 		})
 		.method({
 			name: 'gestureRecognizer',
-			returnType: 'BOOL',
+			returns: 'BOOL',
 			arguments: [{type:'UIGestureRecognizer',name:'gestureRecognizer'}, {type:'UIGestureRecognizer',name:'shouldRecognizeSimultaneouslyWithGestureRecognizer',property:'otherGestureRecognizer'}],
 			action: function(_gestureRecognizer, _otherGestureRecognizer){
 				var gestureRecognizer = _gestureRecognizer.cast('UIGestureRecognizer'),
