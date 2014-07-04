@@ -18,7 +18,7 @@ Hyperloop.defineClass(AlertViewDelegate)
 		name: 'alertView',
 		returns: 'void',
 		arguments: [ { type: 'UIAlertView', name: 'alertView' }, { type: 'NSInteger', name: 'clickedButtonAtIndex'} ],
-		action: function(clickedButtonAtIndex) {
+		action: function(view,clickedButtonAtIndex) {
 			console.log('clicked alert button: ' + clickedButtonAtIndex);
 		}
 	})
