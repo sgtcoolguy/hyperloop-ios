@@ -78,8 +78,8 @@ describe('#types', function(){
 		declare=[];
 		preamble=[];
 		type.toNativeBody('value',preamble,cleanup,declare).should.be.equal('*valuebuf2->getObject()');
-		preamble[0].should.be.equal('auto valuebuf = static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
-		preamble[1].should.be.equal('auto valuebuf2 = static_cast<Hyperloop::NativeObject<CMAcceleration *> *>(valuebuf);');
+		preamble[6].should.be.equal('auto valuebuf = is_valuenull ? nullptr : static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
+		preamble[7].should.be.equal('auto valuebuf2 = static_cast<Hyperloop::NativeObject<CMAcceleration *> *>(valuebuf);');
 		cleanup.should.be.empty;
 		declare.should.be.empty;
 
@@ -265,8 +265,8 @@ describe('#types', function(){
 		var preamble = [], cleanup = [], declare = [];
 		type.toNativeBody("value",preamble,cleanup,declare).should.equal('*valuebuf2->getObject()');
 		preamble.should.not.be.empty;
-		preamble[0].should.be.equal('auto valuebuf = static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
-		preamble[1].should.be.equal('auto valuebuf2 = static_cast<Hyperloop::NativeObject<CLLocationCoordinate2D *> *>(valuebuf);');
+		preamble[6].should.be.equal('auto valuebuf = is_valuenull ? nullptr : static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
+		preamble[7].should.be.equal('auto valuebuf2 = static_cast<Hyperloop::NativeObject<CLLocationCoordinate2D *> *>(valuebuf);');
 		cleanup.should.be.empty;
 		declare.should.be.empty;
 		declare = [];
