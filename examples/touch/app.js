@@ -1,6 +1,16 @@
 "use hyperloop"
 
 try {
+
+    // FIXME resolve constants and functions
+	var UIGestureRecognizerStateBegan = 1,
+		UIGestureRecognizerStateChanged = 2,
+		CGPointZero = CGPointMake(0,0),
+		// CHEAT: function name inside custom class can not resolved
+		CGPointMake = CGPointMake_function,
+		CGAffineTransformScale = CGAffineTransformScale_function,
+		CGAffineTransformRotate = CGAffineTransformRotate_function;
+
 	var bounds = UIScreen.mainScreen().bounds;
 	var window = Hyperloop.method(UIWindow, 'initWithFrame:').call(bounds);
 	window.backgroundColor = UIColor.blueColor();
@@ -34,14 +44,17 @@ try {
 			action: function(_gestureRecognizer) {
 				var gestureRecognizer = _gestureRecognizer.cast('UIPanGestureRecognizer'),
 					state = gestureRecognizer.state;
-				if (state == UIGestureRecognizerStateBegan ||
-					state == UIGestureRecognizerStateChanged)
-				{
-					var gview = gestureRecognizer.view;
-					adjustAnchorPointForGestureRecognizer(gview,gestureRecognizer);
-					var translation = gestureRecognizer.translationInView(gview.superview);
-					gview.center = CGPointMake(gview.center.x + translation.x, gview.center.y + translation.y);
-					gestureRecognizer.setTranslation(CGPointZero,gview.superview);
+				if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged) {
+					try {
+						var gview = gestureRecognizer.view;
+						adjustAnchorPointForGestureRecognizer(gview,gestureRecognizer);
+						var translation = gestureRecognizer.translationInView(gview.superview).cast('CGPoint');
+						// FIXME CGPointMake can not resolved here, we cheat it by assigning CGPointMake = CGPointMake_function
+						gview.center = CGPointMake(gview.center.x + translation.x, gview.center.y + translation.y);
+						gestureRecognizer.setTranslation(CGPointZero,gview.superview);
+					} catch(E) {
+						console.log(E);
+					}
 				}
 			}
 		})
@@ -50,15 +63,18 @@ try {
 			returnType: 'void',
 			arguments: [{type:'UIPinchGestureRecognizer',name:'gestureRecognizer'}],
 			action: function(_gestureRecognizer) {
-				var gestureRecognizer = _gestureRecognizer.cast('UIPinchGestureRecognizer'),
-					state = gestureRecognizer.state;
-			    if (state == UIGestureRecognizerStateBegan ||
-			    	state == UIGestureRecognizerStateChanged) {
-			    	var gview = gestureRecognizer.view;
-			        adjustAnchorPointForGestureRecognizer(gview,gestureRecognizer);
-			        gview.transform = CGAffineTransformScale(gview.transform, gestureRecognizer.scale, gestureRecognizer.scale);
-			        gestureRecognizer.scale = 1;
-			    }
+				try {
+					var gestureRecognizer = _gestureRecognizer.cast('UIPinchGestureRecognizer'),
+						state = gestureRecognizer.state;
+				    if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged) {
+						var gview = gestureRecognizer.view;
+				        adjustAnchorPointForGestureRecognizer(gview,gestureRecognizer);
+				        gview.transform = CGAffineTransformScale(gview.transform, gestureRecognizer.scale, gestureRecognizer.scale);
+				        gestureRecognizer.scale = 1;
+				    }
+				} catch (E) {
+					console.log(E);
+				}
 			}
 		})
 		.method({
@@ -66,13 +82,16 @@ try {
 			returnType: 'void',
 			arguments: [{type:'UIRotationGestureRecognizer',name:'gestureRecognizer'}],
 			action: function(_gestureRecognizer) {
-				var gestureRecognizer = _gestureRecognizer.cast('UIRotationGestureRecognizer'),
-					state = gestureRecognizer.state;
-			    if (state == UIGestureRecognizerStateBegan ||
-			    	state == UIGestureRecognizerStateChanged) {
-					var gview = gestureRecognizer.view;
-			        gview.transform = CGAffineTransformRotate(gview.transform, gestureRecognizer.rotation);
-			        gestureRecognizer.rotation = 0;
+				try {
+					var gestureRecognizer = _gestureRecognizer.cast('UIRotationGestureRecognizer'),
+						state = gestureRecognizer.state;
+				    if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged) {
+						var gview = gestureRecognizer.view;
+				        gview.transform = CGAffineTransformRotate(gview.transform, gestureRecognizer.rotation);
+				        gestureRecognizer.rotation = 0;
+					}
+			    } catch (E) {
+					console.log(E);
 			    }
 			}
 		})
@@ -110,13 +129,8 @@ try {
 			pinchGestureRecognizer = Hyperloop.method(UIPinchGestureRecognizer,'initWithTarget:action:').call(gestureRecognizerDelegate,selPinchView),
 			rotationGestureRecognizer = Hyperloop.method(UIRotationGestureRecognizer, 'initWithTarget:action:').call(gestureRecognizerDelegate,selRotateView);
 
-		global.gestureRecognizer[colorName] = [
-			gestureRecognizerDelegate,
-			panGestureRecognizer,
-			pinchGestureRecognizer,
-			rotationGestureRecognizer,
-			view,
-		];
+		// need to save the delegate object
+		global.gestureRecognizer[colorName] = gestureRecognizerDelegate;
 
 		// TODO Use UIImage
 		if (colorName == 'Cyan') {
