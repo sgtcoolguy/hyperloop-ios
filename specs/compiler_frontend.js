@@ -401,9 +401,7 @@ describe("iOS Compiler front-end", function() {
 		// ok how do we determine that we first do an assign of 100 to b, then a to b.
 		var assigns = transformed.body[2].body;
 		should.exist(assigns);
-		//assigns.should.be.an.instanceof(Uglify.AST_SimpleStatement); // FIXME No idea why this fails
-
-		var elements = assigns.body.elements;
+		var elements = assigns.elements;
 		elements.should.be.an.Array;
 		//elements[0].should.be.an.instanceof(Uglify.AST_Call); // FIXME No idea why this fails
 		elements[0].expression.name.should.eql('UILabel_Set_textColor');
