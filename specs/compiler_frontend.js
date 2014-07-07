@@ -364,7 +364,7 @@ describe("iOS Compiler front-end", function() {
 		var arch = 'i386',
 			build_opts = {DEBUG:true,OBFUSCATE:false},
 			state = {};
-		source = '"use hyperloop"\nvar label = new UILabel();\nlabel.textAlignment = NSTextAlignmentCenter;';
+			source = '"use hyperloop"\nvar label = new UILabel();\nlabel.textAlignment = NSTextAlignmentCenter;';
 
 		should.exist(iosMetabase);
 
@@ -379,6 +379,38 @@ describe("iOS Compiler front-end", function() {
 		should.exist(theValueArg);
 		theValueArg.value.should.eql(1);
 		//(theValueArg instanceof Uglify.AST_Number).should.be.true; // FIXME No idea why this fails
+
+		done();
+	});
+
+	it("should transform multiple assign properly", function(done) {
+		this.timeout(100000);
+		var arch = 'i386',
+			build_opts = {DEBUG:true,OBFUSCATE:false},
+			state = {};
+			source = '"use hyperloop"\nvar label = new UILabel();label.shadowColor = label.textColor = UIColor.darkTextColor();';
+
+		should.exist(iosMetabase);
+
+		state.metabase = iosMetabase;
+		state.libfile = 'blah';
+		state.symbols = {};
+		state.obfuscate = false;
+		var transformed = compiler.compile({platform:'ios'}, state, ios_compiler, arch, source, 'filename', 'filename.js', build_opts);
+
+		// ok how do we determine that we first do an assign of 100 to b, then a to b.
+		var assigns = transformed.body[2].body;
+		should.exist(assigns);
+		var elements = assigns.elements;
+		elements.should.be.an.Array;
+		//elements[0].should.be.an.instanceof(Uglify.AST_Call); // FIXME No idea why this fails
+		elements[0].expression.name.should.eql('UILabel_Set_textColor');
+		elements[0].args[0].name.should.eql('label');
+		elements[0].args[1].expression.name.should.eql('UIColor_darkTextColor');
+		//elements[1].should.be.an.instanceof(Uglify.AST_Call); // FIXME No idea why this fails
+		elements[1].expression.name.should.eql('UILabel_Set_shadowColor');
+		elements[1].args[0].name.should.eql('label');
+		elements[1].args[1].expression.name.should.eql('UILabel_Get_textColor');
 
 		done();
 	});
