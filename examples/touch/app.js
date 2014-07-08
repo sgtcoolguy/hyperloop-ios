@@ -2,14 +2,10 @@
 
 try {
 
-    // FIXME resolve constants and functions
+    // FIXME resolve constants
 	var UIGestureRecognizerStateBegan = 1,
 		UIGestureRecognizerStateChanged = 2,
-		CGPointZero = CGPointMake(0,0),
-		// CHEAT: function name inside custom class can not resolved
-		CGPointMake = CGPointMake_function,
-		CGAffineTransformScale = CGAffineTransformScale_function,
-		CGAffineTransformRotate = CGAffineTransformRotate_function;
+		CGPointZero = CGPointMake(0,0);
 
 	var bounds = UIScreen.mainScreen().bounds;
 	var window = Hyperloop.method(UIWindow, 'initWithFrame:').call(bounds);
@@ -26,8 +22,8 @@ try {
 		var gestureRecognizer = _gestureRecognizer.cast('UIGestureRecognizer');
 		var gview = _gview.cast('UIView');
 	    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-	        var locationInView = gestureRecognizer.locationInView(gview).cast('CGPoint'), // TODO: should work without cast
-	        	locationInSuperview = gestureRecognizer.locationInView(gview.superview).cast('CGPoint');
+	        var locationInView = gestureRecognizer.locationInView(gview);
+	        	locationInSuperview = gestureRecognizer.locationInView(gview.superview);
 
 	        gview.layer.anchorPoint = CGPointMake(locationInView.x / gview.bounds.size.width, locationInView.y / gview.bounds.size.height);
 	        gview.center = locationInSuperview;
@@ -48,8 +44,7 @@ try {
 					try {
 						var gview = gestureRecognizer.view;
 						adjustAnchorPointForGestureRecognizer(gview,gestureRecognizer);
-						var translation = gestureRecognizer.translationInView(gview.superview).cast('CGPoint');
-						// FIXME CGPointMake can not resolved here, we cheat it by assigning CGPointMake = CGPointMake_function
+						var translation = gestureRecognizer.translationInView(gview.superview);
 						gview.center = CGPointMake(gview.center.x + translation.x, gview.center.y + translation.y);
 						gestureRecognizer.setTranslation(CGPointZero,gview.superview);
 					} catch(E) {
@@ -130,7 +125,12 @@ try {
 			rotationGestureRecognizer = Hyperloop.method(UIRotationGestureRecognizer, 'initWithTarget:action:').call(gestureRecognizerDelegate,selRotateView);
 
 		// need to save the delegate object
-		global.gestureRecognizer[colorName] = gestureRecognizerDelegate;
+		global.gestureRecognizer[colorName] = [
+			gestureRecognizerDelegate,
+			panGestureRecognizer,
+			pinchGestureRecognizer,
+			rotationGestureRecognizer
+		];
 
 		// TODO Use UIImage
 		if (colorName == 'Cyan') {
