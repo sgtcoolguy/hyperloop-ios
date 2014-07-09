@@ -113,8 +113,11 @@ try {
 	global.gestureRecognizer = {};
 
 	function TouchableView(colorName) {
-		
-		var frame = CGRectMake(100,100,100,100),
+
+		var imageBaseName = NSString.stringWithUTF8String(colorName+'Square.png'),
+			image = UIImage.imageNamed(imageBaseName),
+			imageView = Hyperloop.method(UIImageView, 'initWithImage:').call(image),
+			frame = imageView.frame,
 			view = Hyperloop.method(UIView,'initWithFrame:').call(frame),
 			gestureRecognizerDelegate = new GestureRecognizer(),
 			selPanView = NSSelectorFromString(NSString.stringWithUTF8String('panView:')),
@@ -124,23 +127,13 @@ try {
 			pinchGestureRecognizer = Hyperloop.method(UIPinchGestureRecognizer,'initWithTarget:action:').call(gestureRecognizerDelegate,selPinchView),
 			rotationGestureRecognizer = Hyperloop.method(UIRotationGestureRecognizer, 'initWithTarget:action:').call(gestureRecognizerDelegate,selRotateView);
 
+		view.addSubview(imageView);
+
 		// need to save the delegate object
 		global.gestureRecognizer[colorName] = [
-			gestureRecognizerDelegate,
-			panGestureRecognizer,
-			pinchGestureRecognizer,
-			rotationGestureRecognizer
+			gestureRecognizerDelegate
 		];
 
-		// TODO Use UIImage
-		if (colorName == 'Cyan') {
-			view.backgroundColor = UIColor.cyanColor();
-		} else if (colorName == 'Magenta') {
-			view.backgroundColor = UIColor.magentaColor();
-		} else if (colorName == 'Yellow') {
-			view.backgroundColor = UIColor.yellowColor();
-		}
-		
 		view.addGestureRecognizer(panGestureRecognizer);
 		view.addGestureRecognizer(pinchGestureRecognizer);
 		view.addGestureRecognizer(rotationGestureRecognizer);
