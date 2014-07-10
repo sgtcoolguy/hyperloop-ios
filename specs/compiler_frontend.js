@@ -202,7 +202,7 @@ describe("iOS Compiler front-end", function() {
 		should.exist(method);
 		method.type.should.eql('constructor');
 		method.metatype.should.eql('constructor');
-		method.symbolname.should.eql('NSObject_constructor');
+		method.symbolname.should.eql('NSObject_init');
 		method.class.should.eql('NSObject');
 
 		method = _.find(state.symbols, function(value, key) {

@@ -5,10 +5,10 @@ String.prototype.toUTF8 = function() {
 };
 
 var bounds = UIScreen.mainScreen().bounds;
-var window = Hyperloop.method(UIWindow, 'initWithFrame:').call(bounds);
+var window = new UIWindow(bounds);
 window.backgroundColor = UIColor.blueColor();
 
-var contentView = Hyperloop.method(UIView, 'initWithFrame:').call(bounds);
+var contentView = new UIView(bounds);
 contentView.backgroundColor = UIColor.whiteColor();
 
 Hyperloop.defineClass(AlertViewDelegate)
@@ -52,7 +52,7 @@ var buttonHandler = new ButtonHandler();
 var alertDelegate = new AlertViewDelegate();
 
 var frame = CGRectMake(110,100,100,44);
-var button = Hyperloop.method(UIButton, 'initWithFrame:').call(frame);
+var button = new UIButton(frame);
 button.setTitle('click me'.toUTF8(), 0);
 button.setTitleColor(UIColor.blueColor(), 0); // use enum: UIControlStateNormal
 
