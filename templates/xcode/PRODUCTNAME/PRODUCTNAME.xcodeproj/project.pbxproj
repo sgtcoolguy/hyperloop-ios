@@ -7,28 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2452334518E141DE00883E2B /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2452334418E141DE00883E2B /* JavaScriptCore.framework */; };
 		2486A69F17CDD2BD009F6F82 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2486A69E17CDD2BD009F6F82 /* Foundation.framework */; };
 		2486A6A117CDD2BD009F6F82 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2486A6A017CDD2BD009F6F82 /* CoreGraphics.framework */; };
 		2486A6A317CDD2BD009F6F82 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2486A6A217CDD2BD009F6F82 /* UIKit.framework */; };
 		2486A6AB17CDD2BD009F6F82 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2486A6AA17CDD2BD009F6F82 /* main.mm */; };
 		2486A6AF17CDD2BD009F6F82 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2486A6AE17CDD2BD009F6F82 /* AppDelegate.m */; };
-		24F7B619180B930C00355B0F /* HyperloopApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 24F7B618180B930C00355B0F /* HyperloopApp.mm */; };		
-		2452334518E141DE00883E2B /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2452334418E141DE00883E2B /* JavaScriptCore.framework */; };
+		24F7B619180B930C00355B0F /* HyperloopApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 24F7B618180B930C00355B0F /* HyperloopApp.mm */; };
+		F9371C71196EC66700FCCB47 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9371C70196EC66700FCCB47 /* GLKit.framework */; };
+		F9371C73196EC67000FCCB47 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9371C72196EC67000FCCB47 /* OpenGLES.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2452334418E141DE00883E2B /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		2486A69B17CDD2BD009F6F82 /* PRODUCTNAME.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PRODUCTNAME.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2486A69E17CDD2BD009F6F82 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2486A6A017CDD2BD009F6F82 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2486A6A217CDD2BD009F6F82 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2486A6A617CDD2BD009F6F82 /* PRODUCTNAME-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PRODUCTNAME-Info.plist"; sourceTree = "<group>"; };
-		2486A6A817CDD2BD009F6F82 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2486A6AA17CDD2BD009F6F82 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objcpp; path = main.mm; sourceTree = "<group>"; };
 		2486A6AC17CDD2BD009F6F82 /* PRODUCTNAME-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PRODUCTNAME-Prefix.pch"; sourceTree = "<group>"; };
 		2486A6AD17CDD2BD009F6F82 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2486A6AE17CDD2BD009F6F82 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		24F7B618180B930C00355B0F /* HyperloopApp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objcpp; path = HyperloopApp.mm; sourceTree = "<group>"; };
-		2452334418E141DE00883E2B /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F9371C70196EC66700FCCB47 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		F9371C72196EC67000FCCB47 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +39,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9371C73196EC67000FCCB47 /* OpenGLES.framework in Frameworks */,
+				F9371C71196EC66700FCCB47 /* GLKit.framework in Frameworks */,
 				2452334518E141DE00883E2B /* JavaScriptCore.framework in Frameworks */,
 				2486A6A117CDD2BD009F6F82 /* CoreGraphics.framework in Frameworks */,
 				2486A6A317CDD2BD009F6F82 /* UIKit.framework in Frameworks */,
@@ -66,6 +71,8 @@
 		2486A69D17CDD2BD009F6F82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F9371C72196EC67000FCCB47 /* OpenGLES.framework */,
+				F9371C70196EC66700FCCB47 /* GLKit.framework */,
 				2452334418E141DE00883E2B /* JavaScriptCore.framework */,
 				2486A69E17CDD2BD009F6F82 /* Foundation.framework */,
 				2486A6A017CDD2BD009F6F82 /* CoreGraphics.framework */,
@@ -158,22 +165,11 @@
 			files = (
 				24F7B619180B930C00355B0F /* HyperloopApp.mm in Sources */,
 				2486A6AF17CDD2BD009F6F82 /* AppDelegate.m in Sources */,
-				2486A6AB17CDD2BD009F6F82 /* main.m in Sources */,
+				2486A6AB17CDD2BD009F6F82 /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		2486A6A717CDD2BD009F6F82 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2486A6A817CDD2BD009F6F82 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		2486A6C517CDD2BD009F6F82 /* Debug */ = {
@@ -256,14 +252,14 @@
 				INFOPLIST_FILE = "PRODUCTNAME/PRODUCTNAME-Info.plist";
 				OTHER_CFLAGS = (
 					"-I$(PROJECT_DIR)/src",
-					HYPERLOOP_OTHER_CFLAGS
+					HYPERLOOP_OTHER_CFLAGS,
 				);
 				OTHER_LDFLAGS = (
 					"-L$(PROJECT_DIR)",
 					"-lLIBNAME",
 					"-ObjC",
 					"-lz",
-					HYPERLOOP_OTHER_LDFLAGS
+					HYPERLOOP_OTHER_LDFLAGS,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "i386 armv7s arm64";
@@ -281,14 +277,14 @@
 				INFOPLIST_FILE = "PRODUCTNAME/PRODUCTNAME-Info.plist";
 				OTHER_CFLAGS = (
 					"-I$(PROJECT_DIR)/src",
-					HYPERLOOP_OTHER_CFLAGS
+					HYPERLOOP_OTHER_CFLAGS,
 				);
 				OTHER_LDFLAGS = (
 					"-L$(PROJECT_DIR)",
 					"-lLIBNAME",
 					"-ObjC",
 					"-lz",
-					HYPERLOOP_OTHER_LDFLAGS
+					HYPERLOOP_OTHER_LDFLAGS,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "i386 armv7s arm64";
