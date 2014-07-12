@@ -7,12 +7,6 @@
 ## Run
 
 ```bash
-hyperloop package --platform=ios --src=examples/lifegl --dest=build/lifegl --name=lifegl --appid=com.lifegl --launch --jsengine=jsc --clean --debug --hl-small
+hyperloop clean compile package launch --platform=ios --src=../hyperloop-ios/examples/lifegl --arch=i386 --frameworks=OpenGLES --frameworks=GLKit --imports="OpenGLES/EAGL"
 ```
-
-## build options
-
-* `--hl-small` - Use 4x4 cells. 10x10 is the default.
-* `--hl-xsmall` - Use 2x2 cells. 10x10 is the default.
-* `--hl-xxsmall` - Use 1x1 cells. 10x10 is the default.
 
