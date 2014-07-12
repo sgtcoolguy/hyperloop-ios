@@ -53,4 +53,8 @@ console.log(plong[0],'should be 0');
 console.log(plong[1],'should be 2');
 console.log(plong[2],'should be 3');
 
+var pi = calloc(size_of_int, 1).cast('int *');
+pi[0] = plong; // pointer to pointer
+
+free(pi);
 free(plong);
