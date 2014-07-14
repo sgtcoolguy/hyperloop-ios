@@ -117,7 +117,7 @@ manager.delegate = locationDelegate;
 manager.startUpdatingLocation();
 if (CLLocationManager.locationServicesEnabled()) {
 	label.text = 'RUN!'.toUTF8();
-	NSTimer.scheduledTimerWithTimeInterval(1 / TARGET_FPS, new TimerCallback(), NSSelectorFromString('update:'), null, true);
+	NSTimer.scheduledTimerWithTimeInterval(1 / TARGET_FPS, new TimerCallback(), NSSelectorFromString('update:'.toUTF8()), null, true);
 }
 else {
 	label.text = 'Please enable GPS for this app!'.toUTF8();
