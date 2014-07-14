@@ -12,6 +12,44 @@ This is the iOS backend for running Hyperloop for iOS.
 * iOS 7.1+
 * Xcode 5.1+
 
+## Install
+
+#### from npm
+
+```
+[sudo] npm install -g hyperloop-ios
+```
+
+#### from github (cutting edge)
+
+```bash
+[sudo] npm install -g git://github.com/appcelerator/hyperloop-ios.git
+```
+
+#### clone and install
+
+```bash
+git clone https://github.com/appcelerator/hyperloop-common.git
+git clone https://github.com/appcelerator/hyperloop-cli.git
+git clone https://github.com/appcelerator/hyperloop-ios.git
+cd hyperloop-common
+[sudo] npm install .
+cd hyperloop-cli
+[sudo] npm install .
+sudo npm link hyperloop-common ../hyperloop-common
+cd hyperloop-ios
+[sudo] npm install .
+sudo npm link hyperloop-common ../hyperloop-common
+```
+
+## Quick Start
+
+Assuming you have already satisfied the [requirements](https://github.com/appcelerator/hyperloop-ios#requirements) for your target platform and installed hyperloop following the [clone and install](https://github.com/appcelerator/hyperloop-ios#clone-and-install) instructions, launching a basic example app can be done like this:
+
+```
+../hyperloop-cli/bin/hyperloop clean compile package launch --platform=ios --arch=i386 --log-level=debug --src="examples/life"
+```
+
 ## Documentation & Community
 
 - [Wiki](https://github.com/appcelerator/hyperloop/wiki)
