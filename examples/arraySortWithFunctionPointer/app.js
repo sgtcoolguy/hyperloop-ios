@@ -1,6 +1,9 @@
 "use hyperloop"
 
-var array = NSArray.arrayWithObjects(3,2,1);
+var array = NSMutableArray.array();
+array.addObject(NSNumber.numberWithInt(3));
+array.addObject(NSNumber.numberWithInt(2));
+array.addObject(NSNumber.numberWithInt(1));
 
 console.log("before which should be out of order =>",array);
 
