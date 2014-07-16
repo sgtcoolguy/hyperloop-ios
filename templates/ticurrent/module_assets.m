@@ -5,7 +5,7 @@
 
 extern NSData* filterDataInRange(NSData* thedata, NSRange range);
 
-@implementation <%=modulename%>
+@implementation <%=modulename%>Assets
 
 - (NSData*) moduleAsset
 {
