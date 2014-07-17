@@ -3,7 +3,7 @@
  */
 #import <Foundation/Foundation.h>
 
-@interface <%=modulename%> : NSObject
+@interface <%=modulename%>Assets : NSObject
 {
 }
 - (NSData*) moduleAsset;
