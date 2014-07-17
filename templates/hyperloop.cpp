@@ -39,6 +39,16 @@ EXPORTAPI void HyperloopNativeLogger(const char *str)
 	[msg release];
 }
 
+/**
+ * return a NSString* from a JSValueRef as string
+ */
+EXPORTAPI NSString* HyperloopJSValueToNSString(JSContextRef ctx, JSValueRef value, JSValueRef *exception) {
+    char* copy = HyperloopJSValueToStringCopy(ctx, value, exception);
+    NSString* str = [[[NSString alloc] initWithUTF8String:copy] autorelease];
+    delete[] copy;
+    return str;
+}
+
 EXPORTAPI JSValueRef Hyperloop_Binary_InstanceOf(JSContextRef ctx, JSObjectRef function, JSObjectRef thisObject, size_t argumentCount, const JSValueRef arguments[], JSValueRef* exception) {
     if (argumentCount < 2)
     {

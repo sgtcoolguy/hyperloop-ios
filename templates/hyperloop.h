@@ -9,6 +9,8 @@
 
 #include <Foundation/Foundation.h>
 
+EXPORTAPI NSString* HyperloopJSValueToNSString(JSContextRef ctx, JSValueRef value, JSValueRef *exception);
+
 typedef Hyperloop::NativeObject<NSObject *> * NativeObjectId;
 
 template<class T>
