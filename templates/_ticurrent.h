@@ -81,6 +81,7 @@
 #define JSObjectFinalizeCallback TiObjectFinalizeCallback
 #define JSObjectConvertToTypeCallback TiObjectConvertToTypeCallback
 #define JSObjectHasInstanceCallback TiObjectHasInstanceCallback
+#define JSObjectSetPropertyAtIndex TiObjectSetPropertyAtIndex
 #define kJSPropertyAttributeNone kTiPropertyAttributeNone
 #define kJSPropertyAttributeReadOnly kTiPropertyAttributeReadOnly
 #define kJSPropertyAttributeDontEnum kTiPropertyAttributeDontEnum
