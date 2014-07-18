@@ -77,9 +77,9 @@ describe('#types', function(){
 		declare[0].should.be.equal('JSValueRef CMAcceleration_ToJSValue(JSContextRef,CMAcceleration *,JSValueRef *);');
 		declare=[];
 		preamble=[];
-		type.toNativeBody('value',preamble,cleanup,declare).should.be.equal('*valuebuf2->getObject()');
-		preamble[6].should.be.equal('auto valuebuf = is_valuenull ? nullptr : static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
-		preamble[7].should.be.equal('auto valuebuf2 = static_cast<Hyperloop::NativeObject<CMAcceleration *> *>(valuebuf);');
+		type.toNativeBody('value',preamble,cleanup,declare).should.be.equal('*valueptr');
+		preamble[15].should.be.equal('\tauto valuebuf = is_valuenull ? nullptr : static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
+		preamble[16].should.be.equal('\tauto valuebuf2 = static_cast<Hyperloop::NativeObject<CMAcceleration *> *>(valuebuf);');
 		cleanup.should.be.empty;
 		declare.should.be.empty;
 
@@ -263,10 +263,10 @@ describe('#types', function(){
 		typelib.metabase = metabase;
 		var type = typelib.resolveType('CLLocationCoordinate2D');
 		var preamble = [], cleanup = [], declare = [];
-		type.toNativeBody("value",preamble,cleanup,declare).should.equal('*valuebuf2->getObject()');
+		type.toNativeBody("value",preamble,cleanup,declare).should.equal('*valueptr');
 		preamble.should.not.be.empty;
-		preamble[6].should.be.equal('auto valuebuf = is_valuenull ? nullptr : static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
-		preamble[7].should.be.equal('auto valuebuf2 = static_cast<Hyperloop::NativeObject<CLLocationCoordinate2D *> *>(valuebuf);');
+		preamble[15].should.be.equal('\tauto valuebuf = is_valuenull ? nullptr : static_cast<Hyperloop::AbstractObject*>(JSObjectGetPrivate(JSValueToObject(ctx,value,exception)));');
+		preamble[16].should.be.equal('\tauto valuebuf2 = static_cast<Hyperloop::NativeObject<CLLocationCoordinate2D *> *>(valuebuf);');
 		cleanup.should.be.empty;
 		declare.should.be.empty;
 		declare = [];
