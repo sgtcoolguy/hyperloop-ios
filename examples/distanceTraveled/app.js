@@ -102,8 +102,8 @@ Hyperloop.defineClass(LocDelegate)
 		name: 'locationManager',
 		returns: 'void',
 		arguments: [
-			{ type: 'CLLocationManager', name: 'locationManager' },
-			{ type: 'NSArray', name: 'didUpdateLocations' }
+			{ type: 'CLLocationManager *', name: 'locationManager' },
+			{ type: 'NSArray *', name: 'didUpdateLocations' }
 		],
 		action: handleNewPosition
 	})
