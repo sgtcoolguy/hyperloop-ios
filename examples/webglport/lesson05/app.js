@@ -1,26 +1,26 @@
-@import('Foundation');
-@import('UIKit');
-@import('GLKit');
-@import('CoreGraphics/CGRectMake');
+"use hyperloop"
 
 var __ = NSString.stringWithUTF8String;
 
-var Lesson2  = require('./lesson02');
-var renderer = new Lesson2();
+var Lesson1  = require('./lesson05');
+var renderer = new Lesson5();
 
 var fpsUpdateDate = +new Date();
 var frameCount = 0;
 
-@class('MyGLController', GLKViewController, [], [
+Hyperloop.defineClass(MyGLController)
+	.implements('GLKViewController')
+	.method(
 	{
 		name: 'glkView',
-		returnType: 'void',
+		returns: 'void',
 		arguments: [ { type: 'GLKView *', name: 'view' }, { type: 'CGRect', name: 'drawInRect', property:'rect' } ],
 		action: function() { renderer.render(); }
-	},
+	})
+	.method(
 	{
 		name: 'update',
-		returnType: 'void',
+		returns: 'void',
 		arguments: [],
 		action: function() { 
 			renderer.update();
@@ -32,8 +32,8 @@ var frameCount = 0;
         		frameCount = 0;
     		}
 		}
-	}
-]);
+	})
+	.build();
 
 // create the OpenGL context
 var context = EAGLContext.alloc().initWithAPI(kEAGLRenderingAPIOpenGLES2);

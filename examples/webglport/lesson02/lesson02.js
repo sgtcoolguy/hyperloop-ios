@@ -1,4 +1,4 @@
-@import('Foundation');
+"use hyperloop"
 
 // WebGL porting support library
 var WebGL = require('webgl');

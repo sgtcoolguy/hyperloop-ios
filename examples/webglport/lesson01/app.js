@@ -1,3 +1,5 @@
+"use hyperloop"
+
 var __ = NSString.stringWithUTF8String;
 
 var Lesson1  = require('./lesson01');
