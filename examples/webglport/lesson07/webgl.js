@@ -1,6 +1,29 @@
-@import('GLKit');
+"use hyperloop"
 
 var __ = NSString.stringWithUTF8String;
+
+/*
+ * Make sure we only use ASCII bytes
+ */
+function getASCIIBytes(str) {
+	var b = new Array(str.length);
+	for (var i = 0; i < str.length; i++) {
+		b[i] = str.charCodeAt(i);
+	}
+	// terminating character
+	b.push(0);
+	return b;
+}
+
+// platform dependent
+var size_of_char     = 1;
+var size_of_bool     = 1;
+var size_of_short    = 2;
+var size_of_int      = 4;
+var size_of_float    = 4;
+var size_of_long     = 4;
+var size_of_double   = 8;
+var size_of_longlong = 8;
 
 var GL = function() {};
 GL.prototype.toGLBool = function(flag) {
@@ -10,14 +33,14 @@ GL.prototype.isShort = function(type) {
     return type == this.UNSIGNED_SHORT || type == this.SHORT;
 }
 GL.prototype.createBuffer = function() {
-    var buffer = @memory();
-    buffer.putInt(0);
+	var buffer = calloc(size_of_int, 1).cast('uint *');
+	buffer[0] = 0;
     glGenBuffers(1, buffer);
-    return {_:buffer.toInt()};
+    return {_:buffer[0]};
 };
 GL.prototype.deleteBuffer = function(buffer) {
-    var b = @memory();
-    b.putInt(buffer._);
+	var b = calloc(size_of_int, buffer._.length).cast('uint *');
+    b = buffer._;
     glDeleteBuffers(1, b);
 }
 GL.prototype.bindBuffer = function(target, buffer) {
@@ -26,31 +49,31 @@ GL.prototype.bindBuffer = function(target, buffer) {
 GL.prototype.bufferData = function(target, buffer, usage) {
     var data;
     if (buffer.constructor.name == 'Array') {
-       data = @memory();
-       data.putFloat(buffer);
+       data = calloc(size_of_float, buffer.length).cast('float *');
+       data = buffer;
     } else {
         data = buffer._buffer._buffer;
     }
     glBufferData(target, data.length, data, usage);
 };
 GL.prototype.shaderSource = function(shader, source) {
-    var buffer = @memory();
-    var length = @memory();
-    buffer.putString(source);
-    length.putInt(source.length());
+	var source_bytes = getASCIIBytes(source);
+    var buffer = calloc(size_of_char, source_bytes.length).cast('char *');    
+    var length = calloc(size_of_int, 1).cast('int *');
+    buffer = source_bytes;
+    length[0] =  source_bytes.length - 1;
     glShaderSource(shader._, 1, buffer, length);
 };
 GL.prototype.getShaderParameter = function(shader, name) {
-    var params = @memory();
-    params.putInt(0);
+    var params = calloc(size_of_int, 1).cast('uint *');
+    params[0] = 0;
     glGetShaderiv(shader._, name , params);
-    return params.toInt(0);
+    return params[0];
 };
 GL.prototype.getShaderInfoLog = function(shader) {
-    var buffer = @memory();
-    var length = @memory();
-    buffer.growChar(256);
-    length.putInt(0);
+    var buffer = calloc(size_of_char, 256).cast('char *');
+    var length = calloc(size_of_int, 1).cast('uint *');
+    length[0] = 0;
 
     glGetShaderInfoLog(shader._, 256, length, buffer);
     return NSString.stringWithUTF8String(buffer);
@@ -59,10 +82,10 @@ GL.prototype.getAttribLocation = function(program, name) {
     return glGetAttribLocation(program._, name);
 };
 GL.prototype.getProgramParameter = function(program, name) {
-    var params = @memory();
-    params.putInt(0);
+    var params = calloc(size_of_int, 1).cast('uint *');
+    params[0] = 0;
     glGetProgramiv(program._, name, params);
-    return params.toInt(0);
+    return params[0];
 };
 GL.prototype.getUniformLocation = function(program, name) {
     return {_:glGetUniformLocation(program._, name)};
@@ -80,43 +103,43 @@ GL.prototype.uniform4i = function(location,v0,v1,v2,v3) {
     glUniform4i(location._,v0,v1,v2,v3);
 }
 GL.prototype.uniform1iv = function(location,v) {
-    var data = @memory();
-    data.putInt(v);
+    var data = calloc(size_of_int, 1).cast('uint *');
+    data[0] = v;
     glUniform1iv(location._,v.length,data);
 }
 GL.prototype.uniform2iv = function(location,v) {
-    var data = @memory();
-    data.putInt(v);
+    var data = calloc(size_of_int, 1).cast('uint *');
+    data[0] = v;
     glUniform2iv(location._,v.length/2,data);
 }
 GL.prototype.uniform3iv = function(location,v) {
-    var data = @memory();
-    data.putInt(v);
+    var data = calloc(size_of_int, 1).cast('uint *');
+    data[0] = v;
     glUniform3iv(location._,v.length/3,data);
 }
 GL.prototype.uniform4iv = function(location,v) {
-    var data = @memory();
-    data.putInt(v);
+    var data = calloc(size_of_int, 1).cast('uint *');
+    data[0] = v;
     glUniform4iv(location._,v.length/4,data);
 }
 GL.prototype.uniform1fv = function(location,v) {
-    var data = @memory();
-    data.putFloat(v);
+    var data = calloc(size_of_float, 1).cast('float *');
+    data[0] = v;
     glUniform1fv(location._,v.length,data);
 }
 GL.prototype.uniform2fv = function(location,v) {
-    var data = @memory();
-    data.putFloat(v);
+    var data = calloc(size_of_float, 1).cast('float *');
+    data[0] = v;
     glUniform2fv(location._,v.length/2,data);
 }
 GL.prototype.uniform3fv = function(location,v) {
-    var data = @memory();
-    data.putFloat(v);
+    var data = calloc(size_of_float, 1).cast('float *');
+    data[0] = v;
     glUniform3fv(location._,v.length/3,data);
 }
 GL.prototype.uniform4fv = function(location,v) {
-    var data = @memory();
-    data.putFloat(v);
+    var data = calloc(size_of_float, 1).cast('float *');
+    data[0] = v;
     glUniform4fv(location._,v.length/4,data);
 }
 GL.prototype.uniform1f = function(location,v0) {
@@ -132,18 +155,18 @@ GL.prototype.uniform4f = function(location,v0,v1,v2,v3) {
     glUniform4f(location._,v0,v1,v2,v3);
 }
 GL.prototype.uniformMatrix2fv = function(location,transpose,v) {
-    var data = @memory();
-    data.putFloat(v);
+    var data = calloc(size_of_float, 1).cast('float *');
+    data[0] = v;
     glUniformMatrix4fv(location._,v.length/4,this.toGLBool(transpose),data);
 };
 GL.prototype.uniformMatrix3fv = function(location,transpose,v) {
-    var data = @memory();
-    data.putFloat(v);
+    var data = calloc(size_of_float, 1).cast('float *');
+    data[0] = v;
     glUniformMatrix4fv(location._,v.length/9,this.toGLBool(transpose),data);
 };
 GL.prototype.uniformMatrix4fv = function(location,transpose,v) {
-    var data = @memory();
-    data.putFloat(v);
+    var data = calloc(size_of_float, 1).cast('float *');
+    data[0] = v;
     glUniformMatrix4fv(location._,v.length/16,this.toGLBool(transpose),data);
 };
 GL.prototype.enableVertexAttribArray = function(index) {
