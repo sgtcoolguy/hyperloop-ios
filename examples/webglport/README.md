@@ -1,5 +1,11 @@
 # WebGL Porting Lessons
 
+## Run
+
+```
+bin/hyperloop clean compile package launch --platform=ios --src=../hyperloop-ios/examples/webglport/lesson01 --arch=i386 --frameworks=OpenGLES --frameworks=GLKit --imports="OpenGLES/EAGL"
+```
+
 ## What is it?
 
 This example contains a set of lessons that ports [webgl-lessons](http://learningwebgl.com/blog/?page_id=1217) to hyperloop with simple WebGL wrapper, to demonstrate how easy it is to port your WebGL project onto hyperloop.
@@ -31,8 +37,8 @@ GL.prototype.vertexAttribPointer = function(index,size,type,normalized,stride,da
     glVertexAttribPointer(index,size,type,this.toGLBool(normalized),stride,data);
 };
 GL.prototype.uniformMatrix4fv = function(location,transpose,v) {
-    var data = @memory();
-    data.putFloat(v);
+    var data = calloc(size_of_float, 1).cast('float *);
+    data[0] = v;
     glUniformMatrix4fv(location._,v.length/16,this.toGLBool(transpose),data);
 };
 ```
