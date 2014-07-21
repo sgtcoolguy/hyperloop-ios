@@ -47,7 +47,7 @@ view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
 
 // remove the base view
 var keyWindow = UIApplication.sharedApplication().keyWindow;
-keyWindow.subviews.objectAtIndex(0).removeFromSuperview();
+keyWindow.subviews.objectAtIndex(0).cast('UIView').removeFromSuperview();
 
 // create our custom GL controller
 var controller = new MyGLController();
