@@ -1,5 +1,4 @@
-@import('Foundation');
-@import('GLKit');
+"use hyperloop"
 
 // WebGL porting support library
 var WebGL = require('webgl');
@@ -67,13 +66,13 @@ function initShaders() {
     shaderProgram.ambientColorUniform = gl.getUniformLocation(shaderProgram, 'uAmbientColor');
     shaderProgram.lightingDirectionUniform = gl.getUniformLocation(shaderProgram, 'uLightingDirection');
     shaderProgram.directionalColorUniform = gl.getUniformLocation(shaderProgram, 'uDirectionalColor');
-    shaderProgram.alphaUniform = gl.getUniformLocation(shaderProgram, 'uAlpha');
+
 }
 
 var texture;
 
 function initTexture() {
-    var texturepath = NSBundle.mainBundle().pathForResource(__('glass.gif'),__(''));
+    var texturepath = NSBundle.mainBundle().pathForResource(__('AppcLanicaHyperloop1024.jpg'),__(''));
 
     var options = new NSMutableDictionary();
     options.setValue(NSNumber.numberWithBool(true),GLKTextureLoaderOriginBottomLeft);
@@ -276,9 +275,6 @@ var directionalR = 0.8;
 var directionalG = 0.8;
 var directionalB = 0.8;
 
-var blending = 1;
-var alpha    = 0.5;
-
 function drawScene() {
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -305,16 +301,6 @@ function drawScene() {
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(texture.target, texture.name);
     gl.uniform1i(shaderProgram.samplerUniform, 0);
-
-    if (blending) {
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-        gl.enable(gl.BLEND);
-        gl.disable(gl.DEPTH_TEST);
-        gl.uniform1f(shaderProgram.alphaUniform, alpha);
-    } else {
-        gl.disable(gl.BLEND);
-        gl.enable(gl.DEPTH_TEST);
-    }
 
     gl.uniform1i(shaderProgram.useLightingUniform, lighting);
     if (lighting) {
