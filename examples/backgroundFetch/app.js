@@ -34,7 +34,7 @@ NSLog("Weather URL = %@", weatherUrl);
 
 function completionHandler(data,response,error) {
 	try {
-	var str = NSString.alloc().initWithData(data,4/*NSUTF8StringEncoding*/); // FIXME Use the enum
+	var str = Hyperloop.method(NSString, 'initWithData:encoding:').call(data,4/*NSUTF8StringEncoding*/); // FIXME Use the enum
 		var result = JSON.parse(str);
 		var weather = "The weather in Mtn. View is "+result.weather[0].description;
 		console.log(weather);
