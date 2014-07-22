@@ -377,7 +377,7 @@ describe("iOS Compiler front-end", function() {
 		// we replace the symbol ref of 'NSTextAlignmentCenter' with a numeric value of 1
 		var theValueArg = transformed.body[2].body.args[1];
 		should.exist(theValueArg);
-		theValueArg.value.should.eql(1);
+		theValueArg.expression.name.should.eql('NSTextAlignmentCenter_Get');
 		//(theValueArg instanceof Uglify.AST_Number).should.be.true; // FIXME No idea why this fails
 
 		done();
