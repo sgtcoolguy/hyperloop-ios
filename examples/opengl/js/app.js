@@ -34,16 +34,6 @@ var GL_DEPTH_BUFFER_BIT = 0x00000100;
 var GL_TRIANGLES = 0x0004;
 var GL_TEXTURE_2D = 0x0DE1;
 
-var kEAGLRenderingAPIOpenGLES2 = 2;
-var GLKVertexAttribPosition = 0;
-var GLKVertexAttribNormal = 1;
-var GLKVertexAttribColor = 2;
-var GLKVertexAttribTexCoord0 = 3;
-var GLKVertexAttribTexCoord1 = 4;
-var GLKTextureLoaderOriginBottomLeft = 'GLKTextureLoaderOriginBottomLeft'.toUTF8();
-
-var NSUTF8StringEncoding = 1;
-
 var gCubeVertexDataArray = [
 	// right wall
     0.5, -0.5, -0.5,        1.0, 0.0, 0.0,	1.0, 0.0,
