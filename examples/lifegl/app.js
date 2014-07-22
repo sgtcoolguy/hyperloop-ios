@@ -28,12 +28,6 @@ var GL_DEPTH_BUFFER_BIT = 0x00000100;
 var GL_TRIANGLES = 0x0004;
 var GL_POINTS = 0x0000;
 
-var kEAGLRenderingAPIOpenGLES2 = 2;
-var GLKVertexAttribPosition = 0;
-var GLKVertexAttribColor = 2;
-
-var NSUTF8StringEncoding = 1;
-
 var size_of_char     = 1;
 var size_of_int      = 4;
 var size_of_float    = 4;
