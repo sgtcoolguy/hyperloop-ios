@@ -1,5 +1,10 @@
 "use hyperloop"
 
+/*
+ * Initialize Pixate
+ */
+PixateFreestyle.initializePixateFreestyle();
+
 String.prototype.toUTF8 = function() {
 	return NSString.stringWithUTF8String('' + this);
 };
@@ -55,6 +60,9 @@ var frame = CGRectMake(110,100,100,44);
 var button = new UIButton(frame);
 button.setTitle('click me'.toUTF8(), 0);
 button.setTitleColor(UIColor.blueColor(), 0); // use enum: UIControlStateNormal
+
+/* apply Pixate style */
+button.styleClass = 'btn-green'.toUTF8();
 
 button.addTarget(buttonHandler, NSSelectorFromString('buttonClick'.toUTF8()), 1 <<  0); // use enum UIControlEventTouchDown
 
