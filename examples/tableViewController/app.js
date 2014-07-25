@@ -20,7 +20,7 @@ Hyperloop.defineClass(TableViewController)
 	.method({
 		name: 'numberOfSectionsInTableView', 
 		returns: 'NSInteger', 
-		arguments: [{type: 'UITableView', name: 'tableView'}],
+		arguments: [{type: 'UITableView*', name: 'tableView'}],
 		action: function(tableView) {
 			return 1;
 		}
@@ -28,15 +28,15 @@ Hyperloop.defineClass(TableViewController)
 	.method({
 		name: 'tableView', 
 		returns: 'NSInteger', 
-		arguments: [{type: 'UITableView', name: 'tableView'}, {type: 'NSInteger', name: 'numberOfRowsInSection'}],
+		arguments: [{type: 'UITableView*', name: 'tableView'}, {type: 'NSInteger', name: 'numberOfRowsInSection'}],
 		action: function(tableView,numberOfRowsInSection) {
 			return data.length;
 		}
 	})
 	.method({
 		name: 'tableView', 
-		returns: 'UITableViewCell', 
-		arguments: [{type: 'UITableView', name: 'tableView'}, {type: 'NSIndexPath', name: 'cellForRowAtIndexPath'}],
+		returns: 'UITableViewCell*', 
+		arguments: [{type: 'UITableView*', name: 'tableView'}, {type: 'NSIndexPath*', name: 'cellForRowAtIndexPath'}],
 		action: function(tableView,_cellForRowAtIndexPath) {
 			var thiz = this.cast('UITableViewController');
 			var cellForRowAtIndexPath = _cellForRowAtIndexPath.cast('NSIndexPath');
@@ -49,6 +49,22 @@ Hyperloop.defineClass(TableViewController)
 			var text = data[cellForRowAtIndexPath.row];
 			cell.textLabel.text = NSString.stringWithUTF8String(text);
 			return cell;
+		}
+	})
+	.method({
+		name: 'tableView',
+		arguments: [{type:'UITableView*', name:'tableView'},{type:'NSIndexPath*', name:'didSelectRowAtIndexPath'}],
+		returns: 'void',
+		action: function(tableView, indexPath) {
+			
+			if(this.onClick) {
+				var callbackObject = {
+					tableView: tableView,
+					section: indexPath.cast('NSIndexPath').section,
+					row: indexPath.cast('NSIndexPath').row,
+				};
+				this.onClick(callbackObject)
+			}
 		}
 	})
 	.build();
@@ -64,4 +80,20 @@ window.addSubview(tableViewController.tableView);
 window.makeKeyAndVisible();
 
 
+tableViewController.onClick = function(e) {
+	var row = e.row;
+	var section = e.section;
+	var tableView = e.tableView.cast('UITableView');
+	var indexPath = Hyperloop.method(NSIndexPath, 'indexPathForRow:inSection:').call(row, section);
+	Hyperloop.method(tableView, 'deselectRowAtIndexPath:animated:').call(indexPath, true);
 
+	alert('TableView Clicked!\nSection: ' + section + '\nRow: ' + row);
+}
+
+function alert(_str) {
+	var alert = new UIAlertView();
+	alert.title = NSString.stringWithUTF8String("Alert");
+	alert.message = NSString.stringWithUTF8String(_str);
+	alert.addButtonWithTitle(NSString.stringWithUTF8String('Ok'));
+	alert.show();
+}
