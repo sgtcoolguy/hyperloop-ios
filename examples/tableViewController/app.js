@@ -10,17 +10,16 @@ Hyperloop.defineClass(TableViewController)
 		arguments: [],
 		action: function() {
 			var thiz = this.cast('UITableViewController'),
-				cellId = NSString.stringWithUTF8String("Cell"),//this must be an NSString
+				cellId = NSString.stringWithUTF8String("Cell"),//this must be a NSString
 				tblClass = UITableViewCell.class(),
 				tableView = thiz.tableView.cast('UITableView');
-			this.cellId = cellId;
 			Hyperloop.method(tableView, 'registerClass:forCellReuseIdentifier:').call(tblClass, cellId);
 		}
 	})
 	.method({
 		name: 'numberOfSectionsInTableView', 
 		returns: 'NSInteger', 
-		arguments: [{type: 'UITableView', name: 'tableView'}],
+		arguments: [{type: 'UITableView*', name: 'tableView'}],
 		action: function(tableView) {
 			return 1;
 		}
@@ -28,19 +27,20 @@ Hyperloop.defineClass(TableViewController)
 	.method({
 		name: 'tableView', 
 		returns: 'NSInteger', 
-		arguments: [{type: 'UITableView', name: 'tableView'}, {type: 'NSInteger', name: 'numberOfRowsInSection'}],
+		arguments: [{type: 'UITableView*', name: 'tableView'}, {type: 'NSInteger', name: 'numberOfRowsInSection'}],
 		action: function(tableView,numberOfRowsInSection) {
 			return data.length;
 		}
 	})
 	.method({
 		name: 'tableView', 
-		returns: 'UITableViewCell', 
-		arguments: [{type: 'UITableView', name: 'tableView'}, {type: 'NSIndexPath', name: 'cellForRowAtIndexPath'}],
+		returns: 'UITableViewCell*', 
+		arguments: [{type: 'UITableView*', name: 'tableView'}, {type: 'NSIndexPath*', name: 'cellForRowAtIndexPath'}],
 		action: function(tableView,_cellForRowAtIndexPath) {
 			var thiz = this.cast('UITableViewController');
+			var cellId = NSString.stringWithUTF8String("Cell");//this must be a NSString
 			var cellForRowAtIndexPath = _cellForRowAtIndexPath.cast('NSIndexPath');
-			var cell = tableView.dequeueReusableCellWithIdentifier(this.cellId, cellForRowAtIndexPath).cast('UITableViewCell');
+			var cell = tableView.dequeueReusableCellWithIdentifier(cellId, cellForRowAtIndexPath).cast('UITableViewCell');
 
 			if (!cell) {
 				cell = new UITableViewCell();
@@ -49,6 +49,25 @@ Hyperloop.defineClass(TableViewController)
 			var text = data[cellForRowAtIndexPath.row];
 			cell.textLabel.text = NSString.stringWithUTF8String(text);
 			return cell;
+		}
+	})
+	.method({
+		name: 'tableView',
+		arguments: [{type:'UITableView*', name:'tableView'},{type:'NSIndexPath*', name:'didSelectRowAtIndexPath'}],
+		returns: 'void',
+		action: function(tableView, indexPath) {
+			/*
+			 * TODO: This does not work for now
+			 * because 'this' looses custom properties (hyperloop-common/issues/75)
+			 */	
+			if(this.onClick) {
+				var callbackObject = {
+					tableView: tableView,
+					section: indexPath.cast('NSIndexPath').section,
+					row: indexPath.cast('NSIndexPath').row,
+				};
+				this.onClick(callbackObject);
+			}
 		}
 	})
 	.build();
@@ -63,5 +82,20 @@ var tableViewController = Hyperloop.method(TableViewController, 'initWithStyle:'
 window.addSubview(tableViewController.tableView);
 window.makeKeyAndVisible();
 
+tableViewController.onClick = function(e) {
+	var row = e.row;
+	var section = e.section;
+	var tableView = e.tableView.cast('UITableView');
+	var indexPath = Hyperloop.method(NSIndexPath, 'indexPathForRow:inSection:').call(row, section);
+	Hyperloop.method(tableView, 'deselectRowAtIndexPath:animated:').call(indexPath, true);
 
+	alert('TableView Clicked!\nSection: ' + section + '\nRow: ' + row);
+};
 
+function alert(_str) {
+	var alert = new UIAlertView();
+	alert.title = NSString.stringWithUTF8String("Alert");
+	alert.message = NSString.stringWithUTF8String(_str);
+	alert.addButtonWithTitle(NSString.stringWithUTF8String('Ok'));
+	alert.show();
+}
